@@ -1,276 +1,214 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#17221d">
-<meta name="description" content="APEX GYM 360: registra tus entrenamientos, logros, progreso e hidratación.">
-<meta name="application-name" content="APEX GYM 360">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="default">
-<meta name="apple-mobile-web-app-title" content="APEX GYM 360">
-<link rel="manifest" href="./manifest.json">
-<link rel="icon" href="./icons/icon-192.png" type="image/png">
-<link rel="apple-touch-icon" href="./icons/apple-touch-icon.png">
-<title>APEX GYM 360 | Tu progreso cuenta</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#ffffff">
+<meta name="description" content="APEX GYM 360: tu entrenador digital. Rutinas, seguimiento y evolución.">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<title>APEX GYM 360</title>
 <style>
-:root{--ink:#17221d;--muted:#718078;--lime:#c7f36b;--paper:#f5f7f2;--white:#fff;--line:#e5eae1;--orange:#ffb45b;--blue:#8ad9e8;--radius:22px}
-*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
-button,input,select{font:inherit}button{cursor:pointer;border:0}
-.app{max-width:1120px;margin:auto;min-height:100vh;padding:20px}
-header{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:8px 0 22px}
-.brand{display:flex;align-items:center;gap:11px}.logo{width:46px;height:46px;border-radius:15px;background:var(--lime);display:grid;place-items:center;color:var(--ink);font-size:24px;font-weight:950;box-shadow:0 7px 18px #c7f36b55}
-.brand h1{font-size:17px;letter-spacing:1.5px;margin:0}.brand small{display:block;color:var(--muted);font-size:11px;letter-spacing:1.2px;margin-top:3px}
-.profile{display:flex;align-items:center;gap:9px;background:#fff;border:1px solid var(--line);padding:7px 12px 7px 7px;border-radius:99px;font-size:13px;font-weight:700}.avatar{width:32px;height:32px;border-radius:50%;background:#e9f6d5;display:grid;place-items:center}
-.hero{background:var(--ink);color:white;border-radius:28px;padding:27px;position:relative;overflow:hidden;display:grid;grid-template-columns:1.3fr .7fr;gap:20px}
-.hero:after{content:"";position:absolute;width:260px;height:260px;border-radius:50%;border:42px solid #ffffff0b;right:-55px;top:-105px}
-.eyebrow{font-size:11px;text-transform:uppercase;letter-spacing:2px;color:var(--lime);font-weight:800}.hero h2{font-size:clamp(28px,4vw,42px);line-height:1.05;margin:13px 0 10px;max-width:500px}.hero p{color:#c2cbc5;max-width:450px;font-size:14px;line-height:1.6;margin:0 0 20px}
-.primary{background:var(--lime);color:var(--ink);font-weight:850;padding:12px 17px;border-radius:13px}.secondary{background:white;border:1px solid var(--line);color:var(--ink);font-weight:750;padding:10px 13px;border-radius:12px}.hero .hero-stat{align-self:center;justify-self:center;text-align:center;z-index:1}.ring{width:154px;height:154px;border-radius:50%;display:grid;place-items:center;background:conic-gradient(var(--lime) var(--progress,0%),#39443d 0);position:relative;margin:auto}.ring:before{content:"";position:absolute;inset:10px;border-radius:50%;background:var(--ink)}.ring-inner{position:relative}.ring strong{font-size:31px;display:block}.ring span{font-size:11px;color:#c2cbc5}.hero-stat p{margin:12px 0 0;font-size:12px}
-nav{display:flex;gap:8px;overflow:auto;padding:18px 0 7px}.tab{white-space:nowrap;background:transparent;color:var(--muted);padding:11px 14px;border-radius:12px;font-weight:800;font-size:13px}.tab.active{background:#e7f5d1;color:var(--ink)}
-.grid{display:grid;grid-template-columns:repeat(12,1fr);gap:15px;margin-top:15px}.card{background:var(--white);border:1px solid var(--line);border-radius:var(--radius);padding:20px;min-width:0}.span-8{grid-column:span 8}.span-7{grid-column:span 7}.span-6{grid-column:span 6}.span-5{grid-column:span 5}.span-4{grid-column:span 4}.span-12{grid-column:span 12}
-.card-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:17px}.card h3{font-size:16px;margin:0}.sub{font-size:12px;color:var(--muted);margin-top:5px}.iconbox{width:42px;height:42px;border-radius:14px;background:#eff7e4;display:grid;place-items:center;font-size:21px;flex-shrink:0}
-.water-number{display:flex;align-items:baseline;gap:7px;margin:4px 0 14px}.water-number strong{font-size:32px}.water-number span{font-size:13px;color:var(--muted)}.bar{height:10px;background:#edf0ec;border-radius:20px;overflow:hidden}.bar>div{height:100%;width:0;background:#7fc8df;border-radius:20px;transition:width .25s}
-.water-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:15px}.water-actions button{padding:10px 12px;background:#edf7fb;color:#174c5b;border-radius:11px;font-weight:800;font-size:12px}.water-actions button:last-child{background:var(--ink);color:#fff}
-.form-row{display:flex;gap:9px;flex-wrap:wrap;margin-top:12px}.field{display:flex;flex-direction:column;gap:6px;flex:1;min-width:100px}.field label{font-size:11px;color:var(--muted);font-weight:800}.field input,.field select{border:1px solid var(--line);border-radius:11px;padding:11px;background:#fff;color:var(--ink);min-width:0;width:100%}
-.small-btn{background:#f0f2ee;padding:8px 11px;border-radius:10px;font-size:12px;font-weight:800;color:var(--ink)}
-.statline{display:flex;justify-content:space-between;align-items:center;padding:11px 0;border-bottom:1px solid var(--line);font-size:13px}.statline:last-child{border-bottom:0}.statline span{color:var(--muted)}
-.streak{display:flex;align-items:center;gap:13px}.streak-emoji{font-size:35px}.streak strong{font-size:25px;display:block}.streak span{color:var(--muted);font-size:12px}
-.badges{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.badge-card{background:#fafbf8;border:1px solid var(--line);border-radius:15px;padding:14px 9px;text-align:center}.badge-card .medal{font-size:29px;filter:grayscale(1);opacity:.4}.badge-card.earned{background:#f4fbe8;border-color:#d9efb3}.badge-card.earned .medal{filter:none;opacity:1}.badge-card b{display:block;font-size:12px;margin-top:7px}.badge-card small{font-size:10px;color:var(--muted);display:block;margin-top:4px;line-height:1.35}
-.workout-list{display:flex;flex-direction:column;gap:9px}.workout{display:flex;align-items:center;gap:11px;padding:12px;background:#fafbf8;border:1px solid var(--line);border-radius:14px}.workout .wicon{font-size:22px}.workout .wtext{flex:1}.workout b{font-size:13px;display:block}.workout small{font-size:11px;color:var(--muted)}
-.hidden{display:none!important}.section-title{margin:25px 0 5px;font-size:21px}.section-desc{font-size:13px;color:var(--muted);margin:0 0 14px}.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--ink);color:white;padding:12px 18px;border-radius:13px;box-shadow:0 10px 30px #0002;font-size:13px;z-index:5;display:none;max-width:90vw}.footer{text-align:center;padding:26px 0;color:#929b94;font-size:11px}
-@media(max-width:700px){.app{padding:13px}.hero{grid-template-columns:1fr;padding:23px}.hero .hero-stat{display:flex;align-items:center;gap:15px;justify-self:start;text-align:left}.ring{width:110px;height:110px;flex-shrink:0}.ring strong{font-size:23px}.ring span{font-size:9px}.hero-stat p{max-width:130px}.span-8,.span-7,.span-6,.span-5,.span-4{grid-column:span 12}.badges{grid-template-columns:repeat(3,1fr)}.card{padding:17px}.profile .profile-name{display:none}}
+:root{--ink:#20252d;--muted:#68717e;--lime:#83c900;--lime2:#a4e635;--line:#e7ebef;--bg:#f5f7f8;--white:#fff;--soft:#eff8dc;--red:#b42318;--shadow:0 8px 24px #17202b0c}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif}button,input,select{font:inherit}button{cursor:pointer}.app{max-width:1100px;margin:auto;min-height:100vh;background:var(--bg)}header{background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:5;padding:12px 16px;display:flex;align-items:center;gap:12px}.brandmark{width:44px;height:44px;border-radius:14px;background:linear-gradient(145deg,#252a33,#59616d);display:grid;place-items:center;color:#fff;font-size:25px;font-weight:900;position:relative;overflow:hidden}.brandmark:after{content:"";position:absolute;width:36px;height:5px;background:var(--lime);transform:rotate(-42deg);bottom:8px;right:-3px}.brand h1{font-size:17px;letter-spacing:1px;margin:0;font-weight:900}.brand p{font-size:10px;letter-spacing:1.8px;margin:3px 0 0;color:var(--muted)}.header-right{margin-left:auto;font-size:12px;color:var(--muted);text-align:right}.nav{display:flex;gap:6px;overflow:auto;padding:10px 14px;background:#fff;border-bottom:1px solid var(--line);scrollbar-width:none}.nav button{border:0;background:transparent;color:var(--muted);padding:10px 13px;border-radius:12px;white-space:nowrap;font-weight:700;font-size:13px}.nav button.active{background:var(--soft);color:#365b00}.main{padding:18px 14px 92px}.hero{background:linear-gradient(120deg,#222832,#404854);color:white;border-radius:22px;padding:22px;position:relative;overflow:hidden;box-shadow:var(--shadow)}.hero:after{content:"360";font-size:100px;font-weight:900;position:absolute;right:-4px;bottom:-30px;color:#ffffff0b;letter-spacing:-7px}.eyebrow{color:var(--lime2);font-size:11px;font-weight:900;letter-spacing:2px;text-transform:uppercase}.hero h2{font-size:27px;line-height:1.12;margin:9px 0 10px;max-width:530px}.hero p{color:#e0e5eb;font-size:14px;line-height:1.5;max-width:520px;margin:0 0 18px}.btn{border:0;border-radius:12px;padding:12px 15px;background:var(--lime);color:#1e2b0a;font-weight:800;box-shadow:none}.btn.secondary{background:#eef1f4;color:#303844}.btn.dark{background:#252b34;color:#fff}.btn.small{padding:8px 10px;font-size:12px}.btn:disabled{opacity:.45;cursor:not-allowed}.section-head{display:flex;align-items:end;justify-content:space-between;gap:12px;margin:22px 2px 12px}.section-head h2{font-size:19px;margin:0}.section-head p{margin:5px 0 0;color:var(--muted);font-size:12px}.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.card{background:#fff;border:1px solid var(--line);border-radius:17px;padding:15px;box-shadow:var(--shadow);min-width:0}.stat{display:flex;gap:12px;align-items:center}.stat-icon{width:42px;height:42px;border-radius:13px;background:var(--soft);display:grid;place-items:center;font-size:20px}.stat strong{display:block;font-size:23px}.stat span{font-size:12px;color:var(--muted)}.split{display:grid;grid-template-columns:1.15fr .85fr;gap:13px}.form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.field{display:flex;flex-direction:column;gap:6px}.field label{font-size:12px;color:#4d5663;font-weight:800}.field input,.field select{width:100%;border:1px solid #dce2e7;border-radius:11px;padding:12px;background:#fff;color:var(--ink);min-width:0}.field input:focus,.field select:focus{outline:2px solid #b7e96a;border-color:#83c900}.hint{font-size:12px;color:var(--muted);line-height:1.5}.notice{border-radius:13px;padding:12px 13px;background:#fff8e7;border:1px solid #f3dfaa;color:#74540b;font-size:12px;line-height:1.5}.routine-controls{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:13px}.routine-controls select{border:1px solid var(--line);border-radius:11px;padding:10px;background:#fff;flex:1;min-width:130px}.exercise-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.exercise{overflow:hidden;padding:0}.exercise-art{height:110px;background:linear-gradient(135deg,#eef7df,#f5f7f8);display:grid;place-items:center;font-size:48px;position:relative}.exercise-art span{position:absolute;bottom:8px;left:10px;background:#ffffffd9;border-radius:8px;padding:4px 7px;font-size:10px;font-weight:900;color:#4a650f}.exercise-content{padding:13px}.exercise h3{margin:0 0 6px;font-size:15px}.exercise .meta{font-size:12px;color:var(--muted);line-height:1.55}.exercise .sets{font-size:12px;font-weight:800;color:#446d00;background:var(--soft);display:inline-block;padding:6px 8px;border-radius:8px;margin:9px 0}
+.health-adapt{border-left:4px solid var(--lime);background:#f4f9e8;color:#33431b;padding:13px 15px;border-radius:12px;line-height:1.55;font-size:13px}
+.health-adapt strong{display:block;margin-bottom:5px}
+.exercise-actions{display:flex;gap:7px;align-items:center;flex-wrap:wrap}.exercise-actions input{width:76px;border:1px solid var(--line);padding:8px;border-radius:9px}.pill{display:inline-flex;border-radius:99px;background:#f0f2f4;padding:5px 8px;font-size:11px;color:#4b5563;font-weight:800}.progress-bar{height:9px;border-radius:20px;background:#edf0f2;overflow:hidden}.progress-bar div{height:100%;background:var(--lime);width:0;transition:width .2s}.empty{padding:28px 15px;text-align:center;color:var(--muted);font-size:13px}.hidden{display:none!important}footer{padding:20px 14px;text-align:center;font-size:11px;color:var(--muted)}.list-row{display:flex;align-items:center;gap:10px;padding:12px 0;border-bottom:1px solid var(--line)}.list-row:last-child{border:0}.list-row .grow{flex:1;min-width:0}.list-row strong{display:block;font-size:13px}.list-row small{display:block;color:var(--muted);font-size:11px;margin-top:4px}.badge{font-size:10px;font-weight:900;background:var(--soft);color:#456c00;padding:5px 7px;border-radius:7px}.toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:#222832;color:white;padding:12px 16px;border-radius:12px;font-size:13px;z-index:20;box-shadow:var(--shadow);max-width:90vw}.install-tip{margin-top:12px;background:#eef7ff;border:1px solid #cfe7fa;border-radius:13px;padding:12px;font-size:12px;line-height:1.5;color:#245273}.mobile-bottom{display:none}
+@media(max-width:700px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.split{grid-template-columns:1fr}.hero h2{font-size:25px}.exercise-list{grid-template-columns:1fr}.exercise-art{height:95px}.main{padding:14px 12px 90px}.header-right{font-size:10px}.mobile-bottom{display:flex;position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid var(--line);z-index:6;padding:7px max(7px,env(safe-area-inset-right)) calc(7px + env(safe-area-inset-bottom));justify-content:space-around}.mobile-bottom button{border:0;background:transparent;color:var(--muted);font-size:10px;display:grid;gap:3px;justify-items:center;padding:4px}.mobile-bottom button span{font-size:19px}.mobile-bottom button.active{color:#4c7600;font-weight:900}.nav{display:none}.form-grid{grid-template-columns:1fr 1fr}.hero{padding:19px}.stat strong{font-size:20px}}
+@media(min-width:701px){.mobile-bottom{display:none}}
 </style>
 </head>
 <body>
 <div class="app">
 <header>
-  <div class="brand"><div class="logo">▲</div><div><h1>APEX GYM 360</h1><small>ENTRENA · AVANZA · SUPÉRATE</small></div></div>
-  <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:flex-end">
-    <button id="installButton" class="secondary hidden" onclick="installApp()">＋ Instalar app</button>
-    <div class="profile"><div class="avatar">💪</div><span class="profile-name">Mi espacio fitness</span></div>
-  </div>
+ <div class="brandmark">A</div>
+ <div class="brand"><h1>APEX <span style="color:#72b900">GYM 360</span></h1><p>ALCANZA TU MÁXIMO POTENCIAL</p></div>
+ <div class="header-right"><strong id="headerName">¡Bienvenido!</strong><br>Tu entrenador digital</div>
 </header>
-<div id="installHelp" class="card hidden" style="margin-bottom:14px;background:#f4fbe8">
-  <b>Instala APEX GYM 360</b>
-  <p class="sub" id="installHelpText">Puedes añadir esta app a la pantalla de inicio para abrirla como una aplicación.</p>
-  <button class="small-btn" onclick="document.getElementById('installHelp').classList.add('hidden')">Entendido</button>
-</div>
-
-<section class="hero">
-  <div><div class="eyebrow">TU PROGRESO CUENTA</div><h2>Un día a la vez.<br>Más fuerte cada día.</h2><p>Registra tus entrenamientos, celebra tus logros y mantén tu hidratación en el camino hacia tus metas.</p><button class="primary" onclick="showTab('entrenamiento')">＋ Registrar entrenamiento</button></div>
-  <div class="hero-stat"><div class="ring" id="heroRing"><div class="ring-inner"><strong id="heroPercent">0%</strong><span>de hidratación</span></div></div><p><b id="heroWater">0 ml</b> de tu meta diaria</p></div>
-</section>
-
-<nav>
-<button class="tab active" data-tab="inicio" onclick="showTab('inicio')">⌂ Inicio</button>
-<button class="tab" data-tab="entrenamiento" onclick="showTab('entrenamiento')">🏋️ Entrenamiento</button>
-<button class="tab" data-tab="logros" onclick="showTab('logros')">🏆 Mis logros</button>
-<button class="tab" data-tab="agua" onclick="showTab('agua')">💧 Hidratación</button>
-<button class="tab" data-tab="progreso" onclick="showTab('progreso')">📈 Mi progreso</button>
+<nav class="nav" id="nav">
+ <button class="active" data-page="home">⌂ Inicio</button><button data-page="routines">▤ Rutinas</button><button data-page="profile">◉ Mi perfil</button><button data-page="progress">↗ Progreso</button><button data-page="about">ⓘ Información</button>
 </nav>
+<main class="main">
+<section id="page-home">
+ <div class="hero"><div class="eyebrow">Tu entrenamiento empieza aquí</div><h2>Entrena con un plan.<br><span style="color:#a4e635">Evoluciona a tu ritmo.</span></h2><p>Encuentra rutinas por nivel y grupo muscular, consulta series y repeticiones, y lleva el registro de tus sesiones.</p><button class="btn" onclick="go('routines')">Ver mis rutinas →</button></div>
+ <div class="section-head"><div><h2>Tu resumen</h2><p>Tu actividad guardada en este dispositivo</p></div></div>
+ <div class="grid">
+  <div class="card stat"><div class="stat-icon">🏋️</div><div><strong id="statWorkouts">0</strong><span>Sesiones completadas</span></div></div>
+  <div class="card stat"><div class="stat-icon">🎯</div><div><strong id="statLevel">Básico</strong><span>Tu nivel actual</span></div></div>
+  <div class="card stat"><div class="stat-icon">📅</div><div><strong id="statDays">0</strong><span>Días entrenados</span></div></div>
+ </div>
+ <div class="section-head"><div><h2>Para comenzar</h2><p>Pasos sencillos para organizar tu entrenamiento</p></div></div>
+ <div class="grid">
+  <div class="card"><div style="font-size:25px">①</div><h3>Completa tu perfil</h3><p class="hint">Indica edad, medidas, experiencia y condiciones relevantes.</p><button class="btn secondary small" onclick="go('profile')">Mi perfil</button></div>
+  <div class="card"><div style="font-size:25px">②</div><h3>Elige una rutina</h3><p class="hint">Selecciona el nivel y el grupo muscular que quieres trabajar.</p><button class="btn secondary small" onclick="go('routines')">Elegir rutina</button></div>
+  <div class="card"><div style="font-size:25px">③</div><h3>Registra tu sesión</h3><p class="hint">Marca ejercicios realizados y guarda tu entrenamiento.</p><button class="btn secondary small" onclick="go('progress')">Ver progreso</button></div>
+ </div>
+ <div class="install-tip"><strong>Instalar en iPhone:</strong> abre esta web en Safari, toca Compartir y elige “Añadir a pantalla de inicio”. Para que la PWA funcione sin conexión, publícala mediante HTTPS (por ejemplo, GitHub Pages).</div>
+</section>
 
-<section id="inicio">
-  <div class="grid">
-    <div class="card span-7">
-      <div class="card-head"><div><h3>💧 Mi hidratación</h3><div class="sub">Cada vaso suma. ¡Tú puedes!</div></div><div class="iconbox">🚰</div></div>
-      <div class="water-number"><strong id="waterTotal">0</strong><span>ml tomados hoy</span></div>
-      <div class="bar"><div id="waterBar"></div></div>
-      <div class="statline"><span>Meta diaria</span><b id="waterGoalLabel">2,000 ml</b></div>
-      <div class="statline"><span>Te falta</span><b id="waterRemaining">2,000 ml</b></div>
-      <div class="water-actions"><button onclick="addWater(250)">＋ 250 ml</button><button onclick="addWater(500)">＋ 500 ml</button><button onclick="addWater(750)">＋ 750 ml</button><button onclick="undoWater()">↶ Deshacer</button></div>
-      <div class="form-row"><div class="field"><label>Meta diaria (ml)</label><input id="goalInput" type="number" min="250" step="250" value="2000"></div><div class="field" style="justify-content:end"><button class="secondary" onclick="saveGoal()">Guardar meta</button></div></div>
-    </div>
-    <div class="card span-5">
-      <div class="card-head"><div><h3>🔥 Tu racha</h3><div class="sub">La constancia es tu superpoder</div></div><div class="iconbox">⚡</div></div>
-      <div class="streak"><div class="streak-emoji">🔥</div><div><strong id="streakNum">0 días</strong><span>de entrenamiento registrados</span></div></div>
-      <div style="margin-top:19px" class="statline"><span>Entrenamientos totales</span><b id="workoutCount">0</b></div>
-      <div class="statline"><span>Agua registrada hoy</span><b id="waterSmall">0 ml</b></div>
-      <button class="secondary" style="width:100%;margin-top:13px" onclick="showTab('logros')">Ver mis trofeos →</button>
-    </div>
-    <div class="card span-6">
-      <div class="card-head"><div><h3>🏆 Logros recientes</h3><div class="sub">Pequeños pasos, grandes victorias</div></div><div class="iconbox">🎉</div></div>
-      <div id="recentBadges" class="workout-list"></div>
-      <button class="small-btn" style="margin-top:12px" onclick="showTab('logros')">Ver todos los logros</button>
-    </div>
-    <div class="card span-6">
-      <div class="card-head"><div><h3>📅 Registrar hoy</h3><div class="sub">Marca tu sesión y suma progreso</div></div><div class="iconbox">💪</div></div>
-      <div class="field"><label>Tipo de entrenamiento</label><select id="workoutType"><option>Pesas</option><option>Cardio</option><option>Bicicleta</option><option>Movilidad / estiramiento</option><option>Entrenamiento completo</option></select></div>
-      <div class="form-row"><div class="field"><label>Duración (minutos)</label><input id="workoutMinutes" type="number" min="1" value="45"></div><div class="field"><label>Nota (opcional)</label><input id="workoutNote" placeholder="Ej. Día de piernas"></div></div>
-      <button class="primary" style="margin-top:13px;width:100%" onclick="addWorkout()">✓ Completar entrenamiento</button>
-    </div>
+<section id="page-profile" class="hidden">
+ <div class="section-head"><div><h2>Mi perfil</h2><p>La rutina se orienta según tu experiencia y puede limitarse según las condiciones que declares.</p></div></div>
+ <div class="card">
+ <form id="profileForm">
+  <div class="form-grid">
+   <div class="field"><label for="name">Nombre (opcional)</label><input id="name" placeholder="¿Cómo te llamas?"></div>
+   <div class="field"><label for="age">Edad</label><input id="age" type="number" min="13" max="100" placeholder="Ej. 30" required></div>
+   <div class="field"><label for="weight">Peso (kg)</label><input id="weight" type="number" min="1" max="500" step=".1" placeholder="Ej. 75"></div>
+   <div class="field"><label for="height">Estatura (cm)</label><input id="height" type="number" min="80" max="250" step=".1" placeholder="Ej. 170"></div>
+   <div class="field"><label for="level">Experiencia</label><select id="level"><option value="beginner">Principiante</option><option value="intermediate">Intermedio</option><option value="advanced">Avanzado</option></select></div>
+   <div class="field"><label for="days">Días por semana</label><select id="days"><option>2</option><option selected>3</option><option>4</option><option>5</option><option>6</option></select></div>
+   <div class="field"><label for="goal">Objetivo principal</label><select id="goal"><option>Aprender técnica y crear hábito</option><option>Fuerza</option><option>Resistencia muscular</option><option>Mejorar condición física</option><option>Hipertrofia</option></select></div>
+   <div class="field"><label for="equipment">Equipo disponible</label><select id="equipment"><option value="gym">Gimnasio completo</option><option value="dumbbells">Mancuernas y banco</option><option value="bodyweight">Peso corporal</option></select></div>
   </div>
-</section>
-
-<section id="entrenamiento" class="hidden">
-  <h2 class="section-title">Entrenamiento</h2><p class="section-desc">Registra tu actividad y celebra cada sesión completada.</p>
-  <div class="grid">
-    <div class="card span-5"><div class="card-head"><div><h3>➕ Nueva sesión</h3><div class="sub">Cada entrenamiento cuenta</div></div></div>
-      <div class="field"><label>Tipo</label><select id="workoutType2"><option>Pesas</option><option>Cardio</option><option>Bicicleta</option><option>Movilidad / estiramiento</option><option>Entrenamiento completo</option></select></div>
-      <div class="form-row"><div class="field"><label>Duración (min)</label><input id="workoutMinutes2" type="number" min="1" value="45"></div></div>
-      <div class="field" style="margin-top:12px"><label>Nota (opcional)</label><input id="workoutNote2" placeholder="Ej. Caminata, espalda..."></div>
-      <button class="primary" style="width:100%;margin-top:14px" onclick="addWorkout(true)">Guardar sesión</button>
-    </div>
-    <div class="card span-7"><div class="card-head"><div><h3>📋 Historial de sesiones</h3><div class="sub">Tus entrenamientos registrados</div></div></div><div id="workoutHistory" class="workout-list"></div></div>
+  <div class="section-head"><div><h2>Condiciones y precauciones</h2><p>Marca lo que corresponda. No es un diagnóstico médico.</p></div></div>
+  <div class="form-grid">
+   <div class="field"><label for="health">Condición declarada</label><select id="health"><option value="none">Ninguna indicada</option><option value="hypertension">Hipertensión arterial</option><option value="diabetes">Diabetes</option><option value="heart">Enfermedad cardíaca u otra condición cardiovascular</option><option value="joint">Lesión o dolor articular/espalda</option><option value="other">Otra condición médica</option></select></div>
+   <div class="field"><label for="limitations">Zona con lesión o limitación</label><input id="limitations" placeholder="Ej. rodilla, hombro (opcional)"></div>
   </div>
+  <p class="hint">Si tienes una condición médica, síntomas, una lesión o dudas sobre qué esfuerzo es seguro, consulta a un profesional de salud antes de empezar. Esta app ofrece orientación general y no sustituye la evaluación médica ni la supervisión del instructor.</p>
+  <button class="btn" type="submit">Guardar mi perfil</button>
+ </form>
+ </div>
 </section>
 
-<section id="logros" class="hidden">
-  <h2 class="section-title">Mis logros 🏆</h2><p class="section-desc">¡Cada pequeño avance merece celebrarse! Los trofeos se desbloquean automáticamente según tus registros.</p>
-  <div class="card"><div class="card-head"><div><h3>Tu colección de trofeos</h3><div class="sub" id="badgeSummary">0 logros desbloqueados</div></div><div class="iconbox">🥇</div></div><div class="badges" id="allBadges"></div></div>
+<section id="page-routines" class="hidden">
+ <div class="section-head"><div><h2>Biblioteca de rutinas</h2><p>Selecciona nivel, grupo muscular y equipo disponible.</p></div></div>
+ <div id="healthNotice" class="notice hidden" style="margin-bottom:13px"></div>
+ <div class="routine-controls">
+  <select id="filterLevel" aria-label="Nivel"><option value="all">Todos los niveles</option><option value="beginner">Principiante</option><option value="intermediate">Intermedio</option><option value="advanced">Avanzado</option></select>
+  <select id="filterMuscle" aria-label="Grupo muscular"><option value="all">Todos los grupos</option><option value="Pecho">Pecho</option><option value="Espalda">Espalda</option><option value="Bíceps">Bíceps</option><option value="Tríceps">Tríceps</option><option value="Hombros">Hombros</option><option value="Cuádriceps">Cuádriceps</option><option value="Piernas">Piernas</option><option value="Pantorrillas">Pantorrillas</option><option value="Cuerpo completo">Cuerpo completo</option></select>
+  <select id="filterEquipment" aria-label="Equipo"><option value="profile">Usar mi equipo</option><option value="gym">Gimnasio completo</option><option value="dumbbells">Mancuernas y banco</option><option value="bodyweight">Peso corporal</option></select>
+ </div>
+ <div class="card" style="margin-bottom:14px"><div style="display:flex;align-items:center;justify-content:space-between;gap:10px"><div><strong id="routineTitle">Rutinas recomendadas</strong><p class="hint" id="routineSub" style="margin:5px 0 0">Selecciona un ejercicio y registra tus series.</p></div><span class="pill" id="routineCount">0 ejercicios</span></div><div class="progress-bar" style="margin-top:13px"><div id="sessionProgress"></div></div><p class="hint" id="sessionLabel" style="margin:7px 0 0">0 ejercicios completados</p></div>
+ <div class="exercise-list" id="exerciseList"></div>
+ <div style="margin-top:14px;display:flex;gap:8px;flex-wrap:wrap"><button class="btn" id="finishWorkout">Guardar sesión completada</button><button class="btn secondary" id="resetSession">Reiniciar selección</button></div>
 </section>
 
-<section id="agua" class="hidden">
-  <h2 class="section-title">Hidratación 💧</h2><p class="section-desc">Define una meta personal, registra lo que bebes y configura recordatorios mientras la página esté abierta.</p>
-  <div class="grid">
-    <div class="card span-6"><div class="card-head"><div><h3>🥤 Registro de agua</h3><div class="sub">Tu avance de hoy</div></div><div class="iconbox">💦</div></div>
-      <div class="water-number"><strong id="waterTotal2">0</strong><span>ml de agua</span></div><div class="bar"><div id="waterBar2"></div></div>
-      <div class="statline"><span>Meta</span><b id="waterGoalLabel2">2,000 ml</b></div><div class="statline"><span>Restante</span><b id="waterRemaining2">2,000 ml</b></div>
-      <div class="water-actions"><button onclick="addWater(250)">＋ 250 ml</button><button onclick="addWater(500)">＋ 500 ml</button><button onclick="addWater(750)">＋ 750 ml</button><button onclick="undoWater()">↶ Deshacer</button></div>
-      <div class="field" style="margin-top:17px"><label>Añadir cantidad personalizada (ml)</label><div class="form-row" style="margin-top:0"><input id="customWater" type="number" min="1" placeholder="Ej. 350"><button class="secondary" onclick="addCustomWater()">Añadir</button></div></div>
-      <div class="field" style="margin-top:15px"><label>Meta diaria (ml)</label><div class="form-row" style="margin-top:0"><input id="goalInput2" type="number" min="250" step="250" value="2000"><button class="secondary" onclick="saveGoal()">Guardar</button></div></div>
-    </div>
-    <div class="card span-6"><div class="card-head"><div><h3>⏰ Recordatorios de agua</h3><div class="sub">Recibe avisos para hacer una pausa y beber agua</div></div><div class="iconbox">🔔</div></div>
-      <label style="display:flex;gap:10px;align-items:center;font-size:13px;font-weight:750"><input id="reminderToggle" type="checkbox" style="width:18px;height:18px"> Activar recordatorios</label>
-      <div class="form-row"><div class="field"><label>Intervalo</label><select id="reminderInterval"><option value="30">Cada 30 minutos</option><option value="45">Cada 45 minutos</option><option value="60" selected>Cada 60 minutos</option><option value="90">Cada 90 minutos</option><option value="120">Cada 2 horas</option></select></div></div>
-      <div class="form-row"><div class="field"><label>Desde</label><input id="reminderStart" type="time" value="08:00"></div><div class="field"><label>Hasta</label><input id="reminderEnd" type="time" value="20:00"></div></div>
-      <button class="primary" style="width:100%;margin-top:14px" onclick="saveReminders()">Guardar recordatorios</button>
-      <p class="sub" style="line-height:1.6;margin-top:13px">Nota: en esta versión web de prueba, los avisos funcionan mientras la página permanece abierta. Para notificaciones fiables con la app cerrada, hará falta convertirla en una app instalable y configurar notificaciones del sistema.</p>
-      <button class="small-btn" onclick="testReminder()">Probar notificación</button>
-    </div>
-  </div>
+<section id="page-progress" class="hidden">
+ <div class="section-head"><div><h2>Mi progreso</h2><p>Sesiones guardadas en este dispositivo.</p></div><button class="btn secondary small" id="exportData">Exportar datos</button></div>
+ <div class="grid">
+  <div class="card stat"><div class="stat-icon">🏁</div><div><strong id="progressTotal">0</strong><span>Sesiones</span></div></div>
+  <div class="card stat"><div class="stat-icon">📈</div><div><strong id="progressExercises">0</strong><span>Ejercicios registrados</span></div></div>
+ </div>
+ <div class="section-head"><div><h2>Historial</h2><p>Las sesiones aparecen aquí cuando las guardas.</p></div><button class="btn secondary small" id="clearHistory">Borrar historial</button></div>
+ <div class="card" id="history"><div class="empty">Todavía no has guardado entrenamientos.</div></div>
+ <div class="section-head"><div><h2>Respaldo y restauración</h2><p>Guarda una copia de tus datos o recupérala en otro dispositivo.</p></div></div>
+ <div class="card"><p class="hint">Los datos se guardan localmente en este navegador. Exporta un respaldo antes de cambiar de teléfono o borrar los datos del navegador.</p><div class="field"><label for="restoreFile">Restaurar desde un archivo JSON</label><input type="file" id="restoreFile" accept=".json,application/json"></div></div>
 </section>
 
-<section id="progreso" class="hidden">
-  <h2 class="section-title">Mi progreso 📈</h2><p class="section-desc">Un resumen de tu actividad registrada en este dispositivo.</p>
-  <div class="grid">
-    <div class="card span-4"><div class="iconbox">🏋️</div><div class="sub">Entrenamientos registrados</div><div class="water-number"><strong id="progressWorkouts">0</strong><span>sesiones</span></div></div>
-    <div class="card span-4"><div class="iconbox">⏱️</div><div class="sub">Tiempo total entrenado</div><div class="water-number"><strong id="progressMinutes">0</strong><span>minutos</span></div></div>
-    <div class="card span-4"><div class="iconbox">🏆</div><div class="sub">Logros desbloqueados</div><div class="water-number"><strong id="progressBadges">0</strong><span>trofeos</span></div></div>
-    <div class="card span-12"><div class="card-head"><div><h3>📊 Actividad de los últimos 7 días</h3><div class="sub">Sesiones registradas por fecha</div></div></div><div id="weekChart" style="display:flex;align-items:end;gap:10px;height:150px;padding-top:10px"></div></div>
-    <div class="card span-12">
-      <div class="card-head"><div><h3>💾 Copia y recuperación</h3><div class="sub">Transfiere tus registros a otro teléfono con un archivo de respaldo.</div></div><div class="iconbox">📦</div></div>
-      <button class="secondary" onclick="exportData()">⬇ Exportar copia (JSON)</button>
-      <button class="secondary" onclick="document.getElementById('backupFile').click()">⬆ Restaurar copia</button>
-      <input id="backupFile" type="file" accept=".json,application/json" class="hidden" onchange="importData(event)">
-      <button class="secondary" onclick="resetData()">Borrar datos de prueba</button>
-      <p class="sub">Los registros se guardan en este dispositivo. Guarda el archivo JSON en Archivos/iCloud/Drive y luego selecciónalo en el otro teléfono para restaurar. La copia no se sincroniza automáticamente.</p>
-    </div>
-  </div>
+<section id="page-about" class="hidden">
+ <div class="section-head"><div><h2>Acerca de APEX GYM 360</h2><p>Tu entrenador digital. Tu progreso. Tu evolución.</p></div></div>
+ <div class="card"><h3>Cómo usar la app</h3><ol class="hint" style="line-height:1.9;padding-left:20px"><li>Completa tu perfil en “Mi perfil”.</li><li>En “Rutinas”, elige nivel, grupo muscular y equipo.</li><li>Consulta la técnica, las series, repeticiones y descansos sugeridos.</li><li>Registra las series realizadas y guarda la sesión.</li><li>Consulta el historial en “Progreso”.</li></ol><h3>Entrena con seguridad</h3><p class="hint">Calienta antes de entrenar, aprende la técnica con cargas manejables y detente si aparece dolor, mareo, dolor de pecho o falta de aire inusual. Si tienes una condición médica o lesión, solicita orientación profesional antes de seguir una rutina.</p><p class="hint">Las adaptaciones por hipertensión y diabetes son generales y orientativas; no garantizan que un ejercicio sea adecuado para una persona concreta ni sustituyen una evaluación médica. Las imágenes ilustrativas de esta versión se representan con iconos; se pueden añadir imágenes o demostraciones verificadas en una siguiente versión.</p><h3>Privacidad</h3><p class="hint">Esta versión no envía tu perfil a un servidor. Los datos quedan almacenados en el navegador de este dispositivo. Usa “Exportar datos” para crear una copia.</p></div>
 </section>
-<div class="footer">APEX GYM 360 · PROTOTIPO WEB DE PRUEBA · Tus datos se guardan en este dispositivo</div>
+</main>
+<footer>APEX GYM 360 · Alcanza tu máximo potencial · Versión de prueba PWA</footer>
+<div class="mobile-bottom" id="mobileNav"><button class="active" data-page="home"><span>⌂</span>Inicio</button><button data-page="routines"><span>🏋️</span>Rutinas</button><button data-page="profile"><span>◉</span>Perfil</button><button data-page="progress"><span>↗</span>Progreso</button></div>
+<div id="toast" class="toast hidden"></div>
 </div>
-<div id="toast" class="toast"></div>
 <script>
-const KEY='apexGym360Prototype_v1';
-const today=()=>new Date().toISOString().slice(0,10);
-let state=loadState();
-function loadState(){try{return JSON.parse(localStorage.getItem(KEY))||{goal:2000,water:{},workouts:[],reminders:{enabled:false,interval:60,start:'08:00',end:'20:00'}}}catch(e){return {goal:2000,water:{},workouts:[],reminders:{enabled:false,interval:60,start:'08:00',end:'20:00'}}}}
-function save(){localStorage.setItem(KEY,JSON.stringify(state));render()}
-function ml(n){return Math.round(n).toLocaleString('es-SV')+' ml'}
-function toast(msg){let t=document.getElementById('toast');t.textContent=msg;t.style.display='block';clearTimeout(window.toastTimer);window.toastTimer=setTimeout(()=>t.style.display='none',2800)}
-function showTab(tab){document.querySelectorAll('section[id]').forEach(s=>s.classList.toggle('hidden',s.id!==tab));document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('active',b.dataset.tab===tab));if(tab==='progreso')renderChart();window.scrollTo({top:0,behavior:'smooth'})}
-function waterToday(){return state.water[today()]||[]}
-function addWater(amount){state.water[today()]=waterToday().concat([{amount,time:new Date().toLocaleTimeString('es-SV',{hour:'2-digit',minute:'2-digit'})}]);save();toast('¡Bien hecho! '+ml(amount)+' añadidos 💧');checkAchievements()}
-function addCustomWater(){let n=Number(document.getElementById('customWater').value);if(!n||n<1)return toast('Ingresa una cantidad válida');addWater(n);document.getElementById('customWater').value=''}
-function undoWater(){let a=waterToday();if(!a.length)return toast('Todavía no hay registros de agua');a.pop();state.water[today()]=a;save();toast('Se deshizo el último registro')}
-function saveGoal(){let v=Number(document.getElementById('goalInput2').value||document.getElementById('goalInput').value);if(!v||v<250)return toast('La meta debe ser de al menos 250 ml');state.goal=v;save();toast('Meta diaria actualizada')}
-function addWorkout(fromTab=false){let type=document.getElementById(fromTab?'workoutType2':'workoutType').value;let minutes=Number(document.getElementById(fromTab?'workoutMinutes2':'workoutMinutes').value);let note=document.getElementById(fromTab?'workoutNote2':'workoutNote').value.trim();if(!minutes||minutes<1)return toast('Ingresa una duración válida');state.workouts.push({id:Date.now(),date:today(),type,minutes,note,time:new Date().toLocaleTimeString('es-SV',{hour:'2-digit',minute:'2-digit'})});save();toast('¡Sesión registrada! 💪 ¡Vas con todo!');checkAchievements();if(fromTab)showTab('entrenamiento')}
-const achievements=[
-{id:'first',emoji:'🌱',name:'Primer paso',desc:'Registra tu primer entrenamiento',test:s=>s.workouts.length>=1},
-{id:'three',emoji:'🐣',name:'Modo constante',desc:'Completa 3 entrenamientos',test:s=>s.workouts.length>=3},
-{id:'seven',emoji:'🔥',name:'Semana poderosa',desc:'Completa 7 entrenamientos',test:s=>s.workouts.length>=7},
-{id:'ten',emoji:'💥',name:'Diez con todo',desc:'Completa 10 entrenamientos',test:s=>s.workouts.length>=10},
-{id:'water1',emoji:'💧',name:'Primera gota',desc:'Registra agua por primera vez',test:s=>Object.values(s.water).some(a=>a.length>0)},
-{id:'hydrated',emoji:'🫧',name:'Hidratación al 100',desc:'Alcanza tu meta diaria de agua',test:s=>(s.water[today()]||[]).reduce((n,x)=>n+x.amount,0)>=s.goal},
-{id:'minutes',emoji:'⏱️',name:'Tiempo bien invertido',desc:'Acumula 300 minutos de entrenamiento',test:s=>s.workouts.reduce((n,w)=>n+w.minutes,0)>=300},
-{id:'variety',emoji:'🎨',name:'Todoterreno',desc:'Prueba 3 tipos de entrenamiento',test:s=>new Set(s.workouts.map(w=>w.type)).size>=3},
-{id:'water3',emoji:'🚰',name:'Hidratación en marcha',desc:'Registra agua en 3 días distintos',test:s=>Object.values(s.water).filter(a=>a.length).length>=3}
+const STORAGE='apexGym360_v2';
+const defaults={profile:{name:'',age:'',weight:'',height:'',level:'beginner',days:'3',goal:'Aprender técnica y crear hábito',equipment:'gym',health:'none',limitations:''},history:[]};
+let data=loadData(), done=new Set(), sessionWeights={};
+function loadData(){try{const raw=localStorage.getItem(STORAGE)||localStorage.getItem('apexGym360_v1')||'{}';const parsed=JSON.parse(raw);return {...defaults,...parsed,profile:{...defaults.profile,...(parsed.profile||{})}}}catch(e){return JSON.parse(JSON.stringify(defaults))}}
+function saveData(){localStorage.setItem(STORAGE,JSON.stringify(data));updateSummary()}
+const exercises=[
+{id:1,name:'Press de pecho en máquina',muscle:'Pecho',levels:['beginner','intermediate','advanced'],equip:['gym'],sets:[2,3,4],reps:['10–12','8–12','6–10'],rest:[90,90,120],emoji:'🏋️',desc:'Espalda apoyada, pies firmes y movimiento controlado. No bloquees bruscamente los codos.'},
+{id:2,name:'Press de pecho con mancuernas',muscle:'Pecho',levels:['intermediate','advanced'],equip:['gym','dumbbells'],sets:[3,4,4],reps:['8–12','8–10','6–10'],rest:[90,120,120],emoji:'💪',desc:'Mantén muñecas alineadas y baja las mancuernas con control.'},
+{id:3,name:'Flexiones inclinadas',muscle:'Pecho',levels:['beginner','intermediate','advanced'],equip:['gym','dumbbells','bodyweight'],sets:[2,3,4],reps:['8–12','10–15','12–20'],rest:[60,75,90],emoji:'🤸',desc:'Apoya las manos en una superficie estable y mantén el cuerpo alineado.'},
+{id:4,name:'Jalón al pecho',muscle:'Espalda',levels:['beginner','intermediate','advanced'],equip:['gym'],sets:[2,3,4],reps:['10–12','8–12','8–10'],rest:[90,90,120],emoji:'🏋️',desc:'Lleva la barra hacia la parte alta del pecho sin balancear el torso ni tirar detrás del cuello.'},
+{id:5,name:'Remo sentado en polea',muscle:'Espalda',levels:['beginner','intermediate','advanced'],equip:['gym'],sets:[2,3,4],reps:['10–12','8–12','8–10'],rest:[90,90,120],emoji:'🚣',desc:'Lleva los codos hacia atrás y evita encorvar la espalda.'},
+{id:6,name:'Remo con mancuerna apoyado',muscle:'Espalda',levels:['intermediate','advanced'],equip:['gym','dumbbells'],sets:[3,4,4],reps:['10–12','8–12','8–10'],rest:[90,90,120],emoji:'💪',desc:'Apoya una mano en un banco estable y evita girar el tronco.'},
+{id:7,name:'Curl de bíceps con mancuernas',muscle:'Bíceps',levels:['beginner','intermediate','advanced'],equip:['gym','dumbbells'],sets:[2,3,4],reps:['10–12','8–12','8–10'],rest:[60,75,90],emoji:'💪',desc:'Codos cerca del torso, sin impulso y con bajada controlada.'},
+{id:8,name:'Curl martillo',muscle:'Bíceps',levels:['beginner','intermediate','advanced'],equip:['gym','dumbbells'],sets:[2,3,4],reps:['10–12','10–12','8–12'],rest:[60,75,90],emoji:'🔨',desc:'Mantén las palmas enfrentadas y evita balancear el cuerpo.'},
+{id:9,name:'Extensión de tríceps en polea',muscle:'Tríceps',levels:['beginner','intermediate','advanced'],equip:['gym'],sets:[2,3,4],reps:['10–12','10–12','8–12'],rest:[60,75,90],emoji:'🏋️',desc:'Mantén los codos cerca del cuerpo y controla el regreso.'},
+{id:10,name:'Extensión de tríceps con mancuerna',muscle:'Tríceps',levels:['intermediate','advanced'],equip:['gym','dumbbells'],sets:[3,3,4],reps:['10–12','8–12','8–10'],rest:[75,90,90],emoji:'💪',desc:'Usa una carga cómoda y evita arquear la espalda.'},
+{id:11,name:'Elevación lateral ligera',muscle:'Hombros',levels:['beginner','intermediate','advanced'],equip:['gym','dumbbells'],sets:[2,3,4],reps:['12–15','10–15','10–15'],rest:[60,75,90],emoji:'🏋️',desc:'Eleva hasta una altura cómoda sin encoger los hombros ni usar impulso.'},
+{id:12,name:'Press de hombros en máquina',muscle:'Hombros',levels:['beginner','intermediate','advanced'],equip:['gym'],sets:[2,3,4],reps:['10–12','8–12','6–10'],rest:[90,90,120],emoji:'🏋️',desc:'Ajusta el asiento, mantén el abdomen activo y usa un rango cómodo.'},
+{id:13,name:'Prensa de piernas',muscle:'Cuádriceps',levels:['beginner','intermediate','advanced'],equip:['gym'],sets:[2,3,4],reps:['10–12','8–12','8–10'],rest:[90,120,120],emoji:'🦵',desc:'Mantén la espalda apoyada y no bajes más allá del rango cómodo de tus caderas.'},
+{id:14,name:'Sentadilla a banco',muscle:'Cuádriceps',levels:['beginner','intermediate','advanced'],equip:['gym','dumbbells','bodyweight'],sets:[2,3,4],reps:['8–10','10–12','10–15'],rest:[90,90,120],emoji:'🦵',desc:'Desciende hacia un banco estable, con pies firmes y rodillas siguiendo la dirección de los pies.'},
+{id:15,name:'Curl femoral en máquina',muscle:'Piernas',levels:['beginner','intermediate','advanced'],equip:['gym'],sets:[2,3,4],reps:['10–12','10–12','8–12'],rest:[75,90,90],emoji:'🦵',desc:'Ajusta el rodillo y evita movimientos bruscos.'},
+{id:16,name:'Puente de glúteos',muscle:'Piernas',levels:['beginner','intermediate','advanced'],equip:['gym','dumbbells','bodyweight'],sets:[2,3,4],reps:['10–12','12–15','12–15'],rest:[60,75,90],emoji:'🏃',desc:'Empuja con los pies y mantén el tronco estable; no hiperextiendas la espalda.'},
+{id:17,name:'Elevación de talones de pie',muscle:'Pantorrillas',levels:['beginner','intermediate','advanced'],equip:['gym','dumbbells','bodyweight'],sets:[2,3,4],reps:['12–15','12–15','12–20'],rest:[60,60,75],emoji:'🦶',desc:'Sube y baja de forma controlada, usando apoyo estable si lo necesitas.'},
+{id:18,name:'Caminata cómoda',muscle:'Cuerpo completo',levels:['beginner','intermediate','advanced'],equip:['gym','dumbbells','bodyweight'],sets:[1,1,1],reps:['8–15 min','10–20 min','15–25 min'],rest:[0,0,0],emoji:'🚶',desc:'Mantén un ritmo que permita hablar. Ajusta la duración a tu condición física.'},
+{id:19,name:'Bird-dog controlado',muscle:'Cuerpo completo',levels:['beginner','intermediate','advanced'],equip:['gym','dumbbells','bodyweight'],sets:[2,3,3],reps:['6–8 por lado','8–10 por lado','10 por lado'],rest:[45,60,60],emoji:'🧘',desc:'En cuatro apoyos, extiende brazo y pierna contrarios sin girar la pelvis.'},
+{id:20,name:'Sentarse y levantarse de banco',muscle:'Piernas',levels:['beginner','intermediate','advanced'],equip:['gym','dumbbells','bodyweight'],sets:[2,3,4],reps:['8–10','10–12','12–15'],rest:[75,90,90],emoji:'🪑',desc:'Usa un banco estable, mueve el cuerpo de forma controlada y detente si hay dolor.'}
 ];
-function earned(){return achievements.filter(a=>a.test(state))}
-function checkAchievements(){let current=earned();let prev=state.earned||[];let fresh=current.filter(a=>!prev.includes(a.id));state.earned=current.map(a=>a.id);localStorage.setItem(KEY,JSON.stringify(state));if(fresh.length)toast('¡Nuevo logro desbloqueado! '+fresh[0].emoji+' '+fresh[0].name);render()}
-function render(){let w=waterToday().reduce((n,x)=>n+x.amount,0),goal=state.goal||2000,pct=Math.min(100,Math.round(w/goal*100));document.getElementById('waterTotal').textContent=w.toLocaleString('es-SV');document.getElementById('waterTotal2').textContent=w.toLocaleString('es-SV');document.getElementById('waterSmall').textContent=ml(w);document.getElementById('waterGoalLabel').textContent=ml(goal);document.getElementById('waterGoalLabel2').textContent=ml(goal);document.getElementById('waterRemaining').textContent=ml(Math.max(0,goal-w));document.getElementById('waterRemaining2').textContent=ml(Math.max(0,goal-w));document.getElementById('waterBar').style.width=pct+'%';document.getElementById('waterBar2').style.width=pct+'%';document.getElementById('heroRing').style.setProperty('--progress',pct+'%');document.getElementById('heroPercent').textContent=pct+'%';document.getElementById('heroWater').textContent=ml(w);document.getElementById('goalInput').value=goal;document.getElementById('goalInput2').value=goal;
-document.getElementById('workoutCount').textContent=state.workouts.length;document.getElementById('streakNum').textContent=streak()+' días';document.getElementById('progressWorkouts').textContent=state.workouts.length;document.getElementById('progressMinutes').textContent=state.workouts.reduce((n,x)=>n+x.minutes,0);document.getElementById('progressBadges').textContent=earned().length;
-const b=earned();document.getElementById('badgeSummary').textContent=b.length+' de '+achievements.length+' logros desbloqueados';document.getElementById('allBadges').innerHTML=achievements.map(a=>`<div class="badge-card ${a.test(state)?'earned':''}"><div class="medal">${a.emoji}</div><b>${a.name}</b><small>${a.desc}</small></div>`).join('');
-document.getElementById('recentBadges').innerHTML=(b.slice(-3).reverse().map(a=>`<div class="workout"><span class="wicon">${a.emoji}</span><div class="wtext"><b>${a.name}</b><small>${a.desc}</small></div><span>✓</span></div>`).join(''))||'<div class="sub">Tu primer trofeo está esperando. ¡Registra una sesión!</div>';
-let recent=[...state.workouts].reverse().slice(0,8);document.getElementById('workoutHistory').innerHTML=recent.map(w=>`<div class="workout"><span class="wicon">${iconFor(w.type)}</span><div class="wtext"><b>${w.type} · ${w.minutes} min</b><small>${w.date} · ${w.time||''} ${w.note?'· '+escapeHtml(w.note):''}</small></div></div>`).join('')||'<div class="sub">Todavía no hay sesiones. ¡Registra tu primera!</div>';
-if(state.reminders){document.getElementById('reminderToggle').checked=!!state.reminders.enabled;document.getElementById('reminderInterval').value=state.reminders.interval||60;document.getElementById('reminderStart').value=state.reminders.start||'08:00';document.getElementById('reminderEnd').value=state.reminders.end||'20:00'}
-renderChart()}
-function iconFor(t){return t==='Pesas'?'🏋️':t==='Cardio'?'🏃':t==='Bicicleta'?'🚴':t.startsWith('Movilidad')?'🧘':'💪'}
-function streak(){let days=new Set(state.workouts.map(w=>w.date));let d=new Date();if(!days.has(today()))d.setDate(d.getDate()-1);let n=0;for(let i=0;i<365;i++){let k=d.toISOString().slice(0,10);if(days.has(k)){n++;d.setDate(d.getDate()-1)}else break}return n}
-function renderChart(){let root=document.getElementById('weekChart');if(!root)return;let days=[];for(let i=6;i>=0;i--){let d=new Date();d.setDate(d.getDate()-i);let key=d.toISOString().slice(0,10);days.push({key,label:d.toLocaleDateString('es-SV',{weekday:'short'}),count:state.workouts.filter(w=>w.date===key).length})}let max=Math.max(1,...days.map(x=>x.count));root.innerHTML=days.map(d=>`<div style="flex:1;text-align:center;height:100%;display:flex;flex-direction:column;justify-content:end;gap:7px"><small style="font-size:11px;color:var(--muted)">${d.count}</small><div style="height:${Math.max(5,d.count/max*95)}px;background:${d.count?'var(--lime)':'#edf0ec'};border-radius:9px 9px 4px 4px"></div><small style="font-size:10px;color:var(--muted)">${d.label}</small></div>`).join('')}
-function saveReminders(){state.reminders={enabled:document.getElementById('reminderToggle').checked,interval:Number(document.getElementById('reminderInterval').value),start:document.getElementById('reminderStart').value,end:document.getElementById('reminderEnd').value};localStorage.setItem(KEY,JSON.stringify(state));setupReminder();toast(state.reminders.enabled?'Recordatorios configurados (página abierta)':'Recordatorios desactivados')}
-let reminderTimer=null;async function setupReminder(){if(reminderTimer)clearInterval(reminderTimer);if(!state.reminders.enabled)return;if(!('Notification'in window)){toast('Este navegador no admite notificaciones');return}if(Notification.permission==='default'){try{await Notification.requestPermission()}catch(e){}}if(Notification.permission!=='granted'){toast('Permite las notificaciones en tu navegador para recibir avisos');return}reminderTimer=setInterval(()=>{let now=new Date(),hm=now.toTimeString().slice(0,5),r=state.reminders;if(hm>=r.start&&hm<=r.end&&now.getMinutes()%r.interval===0){new Notification('APEX GYM 360 💧',{body:'Pausa rápida: toma un poco de agua y sigue con todo.'})}},60000)}
-async function testReminder(){if(!('Notification'in window))return toast('Tu navegador no admite notificaciones.');let p=Notification.permission;if(p==='default')p=await Notification.requestPermission();if(p==='granted'){new Notification('APEX GYM 360 💧',{body:'¡Es hora de hidratarte! Cada pequeño hábito cuenta.'});toast('Notificación de prueba enviada')}else toast('Activa los permisos de notificación en tu navegador')}
-function exportData(){let blob=new Blob([JSON.stringify(state,null,2)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='apex-gym-360-datos.json';a.click();URL.revokeObjectURL(url);toast('Copia de tus datos descargada')}
-function resetData(){if(!confirm('¿Seguro que quieres borrar todos los datos de prueba de este navegador?'))return;state={goal:2000,water:{},workouts:[],reminders:{enabled:false,interval:60,start:'08:00',end:'20:00'}};save();toast('Datos de prueba borrados')}
-function escapeHtml(s){return s.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
-
-// PWA: cache offline e instalación cuando el navegador lo permita.
-let deferredInstallPrompt = null;
-window.addEventListener('beforeinstallprompt', (event) => {
-  event.preventDefault();
-  deferredInstallPrompt = event;
-  const b = document.getElementById('installButton');
-  if (b) b.classList.remove('hidden');
-});
-window.addEventListener('appinstalled', () => {
-  const b = document.getElementById('installButton');
-  if (b) b.classList.add('hidden');
-  toast('¡APEX GYM 360 quedó instalada! 💪');
-});
-async function installApp() {
-  if (deferredInstallPrompt) {
-    deferredInstallPrompt.prompt();
-    await deferredInstallPrompt.userChoice;
-    deferredInstallPrompt = null;
-    document.getElementById('installButton').classList.add('hidden');
-    return;
-  }
-  const help = document.getElementById('installHelp');
-  const text = document.getElementById('installHelpText');
-  const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
-  text.textContent = isIOS
-    ? 'En Safari: toca Compartir (cuadro con flecha hacia arriba), elige “Añadir a pantalla de inicio” y confirma. Primero debes abrir esta app desde una dirección HTTPS.'
-    : 'Abre el menú del navegador y busca “Instalar aplicación” o “Añadir a pantalla de inicio”. La instalación real requiere que la app esté publicada en HTTPS (o abierta en localhost).';
-  help.classList.remove('hidden');
+const levelIndex={beginner:0,intermediate:1,advanced:2},levelNames={beginner:'Principiante',intermediate:'Intermedio',advanced:'Avanzado'};
+function safe(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function go(page){document.querySelectorAll('[id^="page-"]').forEach(x=>x.classList.add('hidden'));document.getElementById('page-'+page).classList.remove('hidden');document.querySelectorAll('[data-page]').forEach(b=>b.classList.toggle('active',b.dataset.page===page));if(page==='routines')renderExercises();if(page==='progress')renderHistory();window.scrollTo({top:0,behavior:'smooth'})}
+document.querySelectorAll('[data-page]').forEach(b=>b.addEventListener('click',()=>go(b.dataset.page)));
+function fillProfile(){const p=data.profile;['name','age','weight','height','level','days','goal','equipment','health','limitations'].forEach(k=>{const el=document.getElementById(k);if(el)el.value=p[k]??defaults.profile[k]??''});document.getElementById('filterLevel').value=p.level||'beginner';document.getElementById('filterEquipment').value='profile'}
+document.getElementById('profileForm').addEventListener('submit',e=>{e.preventDefault();const p={};['name','age','weight','height','level','days','goal','equipment','health','limitations'].forEach(k=>p[k]=document.getElementById(k).value);data.profile=p;saveData();toast('Perfil guardado en este dispositivo');updateSummary();go('routines')});
+function equipmentValue(){const v=document.getElementById('filterEquipment').value;return v==='profile'?data.profile.equipment:v}
+function healthMessage(){
+ const h=data.profile.health;
+ const msgs={
+ hypertension:'<strong>Adaptación orientativa para hipertensión</strong>Se priorizan movimientos sencillos y esfuerzo ligero a moderado, con descanso amplio. Respira continuamente: no aguantes el aire ni hagas esfuerzos máximos. Si tu presión está sin control, tienes síntomas o tu profesional te indicó restricciones, no inicies esta rutina hasta recibir orientación.',
+ diabetes:'<strong>Adaptación orientativa para diabetes</strong>Se priorizan movimientos de bajo impacto y esfuerzo gradual. Sigue tu plan personal de control de glucosa, alimentación y medicación indicado por tu equipo de salud; no cambies dosis por esta app. Usa calzado adecuado y revisa tus pies si te lo han recomendado. Detente si te sientes mal.',
+ heart:'<strong>Se requiere orientación médica</strong>Has indicado una enfermedad cardíaca u otra condición cardiovascular. Por seguridad, la app no mostrará una rutina genérica hasta que tu profesional de salud confirme qué actividad e intensidad son apropiadas para ti.',
+ joint:'<strong>Revisar lesión o dolor antes de entrenar</strong>Como no conocemos el diagnóstico ni los movimientos autorizados, la app pausará las rutinas genéricas. Solicita orientación profesional y retoma solo con ejercicios que te hayan autorizado.',
+ other:'<strong>Confirma las precauciones de tu condición</strong>La app pausará las rutinas genéricas para evitar recomendaciones inadecuadas. Consulta con tu profesional de salud qué actividades e intensidad puedes realizar.',
+ none:''
+ };
+ return msgs[h]||'';
 }
-if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost' || location.hostname === '127.0.0.1')) {
-  window.addEventListener('load', () => navigator.serviceWorker.register('./service-worker.js').catch(() => {}));
+const adaptedExerciseIds=[3,7,8,11,16,17,18,19,20];
+function renderExercises(){
+ const requestedLevel=document.getElementById('filterLevel').value;
+ const mus=document.getElementById('filterMuscle').value;
+ const equip=equipmentValue();
+ const h=data.profile.health;
+ const warning=healthMessage();
+ const notice=document.getElementById('healthNotice');
+ notice.classList.toggle('hidden',!warning);
+ notice.classList.toggle('health-adapt',!!warning);
+ notice.innerHTML=warning;
+ let list=exercises.filter(x=>(requestedLevel==='all'||x.levels.includes(requestedLevel))&&(mus==='all'||x.muscle===mus)&&x.equip.includes(equip));
+ let adapted=(h==='hypertension'||h==='diabetes');
+ if(adapted){
+   list=list.filter(x=>adaptedExerciseIds.includes(x.id)&&x.levels.includes('beginner'));
+ } else if(['heart','joint','other'].includes(h)){
+   list=[];
+ }
+ const box=document.getElementById('exerciseList');box.innerHTML='';
+ list.forEach(x=>{
+   const idx=adapted?0:(levelIndex[requestedLevel==='all'?data.profile.level:requestedLevel]??0);
+   const doneNow=done.has(x.id);
+   const sets=adapted?2:x.sets[idx];
+   const rest=adapted?Math.max(90,x.rest[idx]):x.rest[idx];
+   const reps=adapted?(x.id===18?'5–10 min':x.id===19?'6 por lado':x.id===20?'6–8':'8–12'):x.reps[idx];
+   const adaptationTag=adapted?'<span class="pill">Adaptación orientativa</span>':'';
+   const extraTip=adapted?(h==='hypertension'?' Empieza con esfuerzo cómodo, sin contener la respiración; termina la serie antes de llegar al agotamiento.':' Mantén un ritmo gradual y sigue las precauciones personalizadas que te dio tu equipo de salud.'):'';
+   const el=document.createElement('article');el.className='card exercise';
+   el.innerHTML=`<div class="exercise-art">${x.emoji}<span>${safe(x.muscle)}</span></div><div class="exercise-content"><h3>${safe(x.name)}</h3><div class="meta">${safe(x.desc+extraTip)}</div><div class="sets">${sets} series · ${reps} rep. · descanso ${rest||'según necesidad'}${rest?' s':''}</div><div class="field"><label for="weight-${x.id}">Peso usado (kg, opcional)</label><input id="weight-${x.id}" type="number" min="0" step=".5" placeholder="Ej. 10" value="${safe(sessionWeights[x.id]||'')}"></div><div class="exercise-actions" style="margin-top:10px"><button class="btn small ${doneNow?'secondary':''}" data-done="${x.id}">${doneNow?'✓ Completado':'Marcar completado'}</button><span class="pill">${adapted?'Esfuerzo ligero/moderado':safe(levelNames[requestedLevel==='all'?data.profile.level:requestedLevel]||'Todos los niveles')}</span>${adaptationTag}</div></div>`;
+   box.appendChild(el);
+   el.querySelector('input').addEventListener('input',e=>sessionWeights[x.id]=e.target.value);
+   el.querySelector('[data-done]').addEventListener('click',()=>{doneNow?done.delete(x.id):done.add(x.id);renderExercises()});
+ });
+ document.getElementById('routineCount').textContent=list.length+' ejercicios';
+ document.getElementById('routineTitle').textContent=adapted?'Rutina orientativa adaptada':mus==='all'?'Rutinas recomendadas':'Rutina de '+mus;
+ document.getElementById('routineSub').textContent=adapted?'Se limita a movimientos sencillos, con pocas series y descanso amplio. No es una prescripción médica.':'Empieza con cargas manejables y prioriza la técnica.';
+ document.getElementById('sessionProgress').style.width=(list.length?done.size/list.length*100:0)+'%';
+ document.getElementById('sessionLabel').textContent=done.size+' ejercicios completados';
+ if(!list.length){
+   let message='No hay ejercicios para esta combinación. Elige otro grupo muscular o equipo.';
+   if(h==='heart'||h==='joint'||h==='other') message='Rutinas pausadas por seguridad. Consulta con un profesional de salud y vuelve a usar esta sección cuando tengas indicaciones claras sobre las actividades permitidas.';
+   if(adapted) message='No hay movimientos de esta selección dentro de la lista orientativa. Prueba otro grupo muscular o equipo; si tienes dudas sobre la seguridad de un movimiento, consulta a tu equipo de salud.';
+   box.innerHTML='<div class="card empty">'+safe(message)+'</div>';
+ }
 }
-function importData(event) {
-  const file = event.target.files && event.target.files[0];
-  if (!file) return;
-  const reader = new FileReader();
-  reader.onload = () => {
-    try {
-      const imported = JSON.parse(reader.result);
-      if (!imported || typeof imported !== 'object' || !Array.isArray(imported.workouts) || !imported.water || typeof imported.water !== 'object') {
-        throw new Error('Formato no reconocido');
-      }
-      if (!confirm('Restaurar esta copia reemplazará los datos actuales de APEX GYM 360. ¿Deseas continuar?')) {
-        event.target.value = '';
-        return;
-      }
-      state = {
-        goal: Number(imported.goal) > 0 ? Number(imported.goal) : 2000,
-        water: imported.water,
-        workouts: imported.workouts,
-        reminders: imported.reminders || {enabled:false, interval:60, start:'08:00', end:'20:00'},
-        earned: Array.isArray(imported.earned) ? imported.earned : []
-      };
-      localStorage.setItem(KEY, JSON.stringify(state));
-      render();
-      setupReminder();
-      toast('Copia restaurada correctamente ✓');
-    } catch (err) {
-      toast('No se pudo restaurar: el archivo no parece una copia válida');
-    }
-    event.target.value = '';
-  };
-  reader.readAsText(file);
-}
-
-render();checkAchievements();setupReminder();
+['filterLevel','filterMuscle','filterEquipment'].forEach(id=>document.getElementById(id).addEventListener('change',renderExercises));
+document.getElementById('finishWorkout').addEventListener('click',()=>{if(!done.size){toast('Marca al menos un ejercicio antes de guardar');return}const muscle=document.getElementById('filterMuscle').value;const lev=document.getElementById('filterLevel').value;const entry={date:new Date().toISOString(),level:lev==='all'?data.profile.level:lev,health:data.profile.health||'none',adapted:['hypertension','diabetes'].includes(data.profile.health),muscle,exercises:[...done].map(id=>{const x=exercises.find(e=>e.id===id);return {name:x.name,muscle:x.muscle,weight:sessionWeights[id]||''}})};data.history.unshift(entry);saveData();done.clear();sessionWeights={};renderExercises();toast('¡Sesión guardada! Buen trabajo');});
+document.getElementById('resetSession').addEventListener('click',()=>{done.clear();sessionWeights={};renderExercises();toast('Selección reiniciada')});
+function updateSummary(){const p=data.profile;document.getElementById('headerName').textContent=p.name?('¡Hola, '+p.name+'!'):'¡Bienvenido!';document.getElementById('statWorkouts').textContent=data.history.length;document.getElementById('statLevel').textContent=levelNames[p.level]||'Principiante';document.getElementById('statDays').textContent=new Set(data.history.map(h=>h.date.slice(0,10))).size;document.getElementById('progressTotal').textContent=data.history.length;document.getElementById('progressExercises').textContent=data.history.reduce((n,h)=>n+h.exercises.length,0)}
+function renderHistory(){const box=document.getElementById('history');if(!data.history.length){box.innerHTML='<div class="empty">Todavía no has guardado entrenamientos.</div>';return}box.innerHTML=data.history.map((h,i)=>`<div class="list-row"><div class="stat-icon">🏋️</div><div class="grow"><strong>${safe(h.muscle==='all'?'Entrenamiento general':h.muscle)} · ${safe(levelNames[h.level]||h.level)}</strong><small>${new Date(h.date).toLocaleString('es-SV',{dateStyle:'medium',timeStyle:'short'})} · ${h.exercises.length} ejercicios${h.adapted?' · adaptación orientativa para '+(h.health==='hypertension'?'hipertensión':'diabetes'):''}</small><small>${h.exercises.map(x=>safe(x.name)+(x.weight?' ('+safe(x.weight)+' kg)':'')).join(' · ')}</small></div><span class="badge">Guardado</span></div>`).join('')}
+document.getElementById('exportData').addEventListener('click',()=>{const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='apex-gym-360-respaldo.json';a.click();URL.revokeObjectURL(url);toast('Respaldo exportado')});
+document.getElementById('restoreFile').addEventListener('change',async e=>{const f=e.target.files[0];if(!f)return;try{const parsed=JSON.parse(await f.text());if(!parsed.profile||!Array.isArray(parsed.history))throw new Error('Formato inválido');data={...defaults,...parsed};saveData();fillProfile();renderHistory();toast('Datos restaurados correctamente')}catch(err){toast('No se pudo restaurar. Verifica el archivo JSON.')}e.target.value=''});
+document.getElementById('clearHistory').addEventListener('click',()=>{if(confirm('¿Borrar todo el historial de entrenamientos? Esta acción no se puede deshacer.')){data.history=[];saveData();renderHistory();toast('Historial borrado')}});
+function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.remove('hidden');clearTimeout(window.toastTimer);window.toastTimer=setTimeout(()=>t.classList.add('hidden'),2600)}
+fillProfile();updateSummary();renderExercises();
+if('serviceWorker' in navigator && location.protocol.startsWith('http'))window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
+let deferredPrompt;window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredPrompt=e});
 </script>
-</body>
-</html>
+</body></html>
