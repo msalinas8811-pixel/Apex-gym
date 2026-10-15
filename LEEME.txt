@@ -1,0 +1,33 @@
+APEX GYM 360 — PWA (aplicación web progresiva)
+
+CONTENIDO
+- index.html: app con entrenamientos, logros, rachas, hidratación y progreso.
+- manifest.json: identidad e instrucciones de instalación.
+- service-worker.js: caché para abrir la app sin conexión después de la primera carga.
+- icons/: iconos de la aplicación para Android/iOS.
+- Copia y recuperación JSON para transferir registros a otro dispositivo.
+
+IMPORTANTE: para instalarla como PWA en un teléfono, los archivos deben estar publicados en una dirección HTTPS.
+Abrir index.html directamente desde el archivo ZIP no activa la instalación ni el modo sin conexión. Para pruebas en computadora, use un servidor local; para instalarla en iPhone/Android, publíquela en HTTPS.
+
+INSTALAR EN IPHONE
+1. Abra la dirección HTTPS en Safari.
+2. Pulse Compartir.
+3. Elija “Añadir a pantalla de inicio”.
+4. Confirme.
+
+INSTALAR EN ANDROID
+1. Abra la dirección HTTPS en Chrome.
+2. Use “Instalar aplicación” o “Añadir a pantalla de inicio”.
+
+DATOS Y RESPALDOS
+- Los datos se guardan localmente en el navegador/dispositivo.
+- En Mi progreso, use “Exportar copia (JSON)” para guardar una copia.
+- En el otro teléfono, abra la app y use “Restaurar copia” para seleccionar el archivo.
+- No hay sincronización automática entre teléfonos.
+
+NOTIFICACIONES
+Los recordatorios configurados dentro de la app funcionan mientras la página/app está activa. Las notificaciones con la app completamente cerrada no están garantizadas por este prototipo PWA; para avisos push confiables hace falta un servicio de notificaciones y configuración adicional, especialmente en iPhone.
+
+PRIVACIDAD
+Los registros no se envían a un servidor; permanecen en el almacenamiento local del navegador, salvo que el usuario exporte y comparta voluntariamente una copia.

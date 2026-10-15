@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#17221d">
+<meta name="description" content="APEX GYM 360: registra tus entrenamientos, logros, progreso e hidratación.">
+<meta name="application-name" content="APEX GYM 360">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="APEX GYM 360">
+<link rel="manifest" href="./manifest.json">
+<link rel="icon" href="./icons/icon-192.png" type="image/png">
+<link rel="apple-touch-icon" href="./icons/apple-touch-icon.png">
+<title>APEX GYM 360 | Tu progreso cuenta</title>
+<style>
+:root{--ink:#17221d;--muted:#718078;--lime:#c7f36b;--paper:#f5f7f2;--white:#fff;--line:#e5eae1;--orange:#ffb45b;--blue:#8ad9e8;--radius:22px}
+*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+button,input,select{font:inherit}button{cursor:pointer;border:0}
+.app{max-width:1120px;margin:auto;min-height:100vh;padding:20px}
+header{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:8px 0 22px}
+.brand{display:flex;align-items:center;gap:11px}.logo{width:46px;height:46px;border-radius:15px;background:var(--lime);display:grid;place-items:center;color:var(--ink);font-size:24px;font-weight:950;box-shadow:0 7px 18px #c7f36b55}
+.brand h1{font-size:17px;letter-spacing:1.5px;margin:0}.brand small{display:block;color:var(--muted);font-size:11px;letter-spacing:1.2px;margin-top:3px}
+.profile{display:flex;align-items:center;gap:9px;background:#fff;border:1px solid var(--line);padding:7px 12px 7px 7px;border-radius:99px;font-size:13px;font-weight:700}.avatar{width:32px;height:32px;border-radius:50%;background:#e9f6d5;display:grid;place-items:center}
+.hero{background:var(--ink);color:white;border-radius:28px;padding:27px;position:relative;overflow:hidden;display:grid;grid-template-columns:1.3fr .7fr;gap:20px}
+.hero:after{content:"";position:absolute;width:260px;height:260px;border-radius:50%;border:42px solid #ffffff0b;right:-55px;top:-105px}
+.eyebrow{font-size:11px;text-transform:uppercase;letter-spacing:2px;color:var(--lime);font-weight:800}.hero h2{font-size:clamp(28px,4vw,42px);line-height:1.05;margin:13px 0 10px;max-width:500px}.hero p{color:#c2cbc5;max-width:450px;font-size:14px;line-height:1.6;margin:0 0 20px}
+.primary{background:var(--lime);color:var(--ink);font-weight:850;padding:12px 17px;border-radius:13px}.secondary{background:white;border:1px solid var(--line);color:var(--ink);font-weight:750;padding:10px 13px;border-radius:12px}.hero .hero-stat{align-self:center;justify-self:center;text-align:center;z-index:1}.ring{width:154px;height:154px;border-radius:50%;display:grid;place-items:center;background:conic-gradient(var(--lime) var(--progress,0%),#39443d 0);position:relative;margin:auto}.ring:before{content:"";position:absolute;inset:10px;border-radius:50%;background:var(--ink)}.ring-inner{position:relative}.ring strong{font-size:31px;display:block}.ring span{font-size:11px;color:#c2cbc5}.hero-stat p{margin:12px 0 0;font-size:12px}
+nav{display:flex;gap:8px;overflow:auto;padding:18px 0 7px}.tab{white-space:nowrap;background:transparent;color:var(--muted);padding:11px 14px;border-radius:12px;font-weight:800;font-size:13px}.tab.active{background:#e7f5d1;color:var(--ink)}
+.grid{display:grid;grid-template-columns:repeat(12,1fr);gap:15px;margin-top:15px}.card{background:var(--white);border:1px solid var(--line);border-radius:var(--radius);padding:20px;min-width:0}.span-8{grid-column:span 8}.span-7{grid-column:span 7}.span-6{grid-column:span 6}.span-5{grid-column:span 5}.span-4{grid-column:span 4}.span-12{grid-column:span 12}
+.card-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:17px}.card h3{font-size:16px;margin:0}.sub{font-size:12px;color:var(--muted);margin-top:5px}.iconbox{width:42px;height:42px;border-radius:14px;background:#eff7e4;display:grid;place-items:center;font-size:21px;flex-shrink:0}
+.water-number{display:flex;align-items:baseline;gap:7px;margin:4px 0 14px}.water-number strong{font-size:32px}.water-number span{font-size:13px;color:var(--muted)}.bar{height:10px;background:#edf0ec;border-radius:20px;overflow:hidden}.bar>div{height:100%;width:0;background:#7fc8df;border-radius:20px;transition:width .25s}
+.water-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:15px}.water-actions button{padding:10px 12px;background:#edf7fb;color:#174c5b;border-radius:11px;font-weight:800;font-size:12px}.water-actions button:last-child{background:var(--ink);color:#fff}
+.form-row{display:flex;gap:9px;flex-wrap:wrap;margin-top:12px}.field{display:flex;flex-direction:column;gap:6px;flex:1;min-width:100px}.field label{font-size:11px;color:var(--muted);font-weight:800}.field input,.field select{border:1px solid var(--line);border-radius:11px;padding:11px;background:#fff;color:var(--ink);min-width:0;width:100%}
+.small-btn{background:#f0f2ee;padding:8px 11px;border-radius:10px;font-size:12px;font-weight:800;color:var(--ink)}
+.statline{display:flex;justify-content:space-between;align-items:center;padding:11px 0;border-bottom:1px solid var(--line);font-size:13px}.statline:last-child{border-bottom:0}.statline span{color:var(--muted)}
+.streak{display:flex;align-items:center;gap:13px}.streak-emoji{font-size:35px}.streak strong{font-size:25px;display:block}.streak span{color:var(--muted);font-size:12px}
+.badges{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.badge-card{background:#fafbf8;border:1px solid var(--line);border-radius:15px;padding:14px 9px;text-align:center}.badge-card .medal{font-size:29px;filter:grayscale(1);opacity:.4}.badge-card.earned{background:#f4fbe8;border-color:#d9efb3}.badge-card.earned .medal{filter:none;opacity:1}.badge-card b{display:block;font-size:12px;margin-top:7px}.badge-card small{font-size:10px;color:var(--muted);display:block;margin-top:4px;line-height:1.35}
+.workout-list{display:flex;flex-direction:column;gap:9px}.workout{display:flex;align-items:center;gap:11px;padding:12px;background:#fafbf8;border:1px solid var(--line);border-radius:14px}.workout .wicon{font-size:22px}.workout .wtext{flex:1}.workout b{font-size:13px;display:block}.workout small{font-size:11px;color:var(--muted)}
+.hidden{display:none!important}.section-title{margin:25px 0 5px;font-size:21px}.section-desc{font-size:13px;color:var(--muted);margin:0 0 14px}.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--ink);color:white;padding:12px 18px;border-radius:13px;box-shadow:0 10px 30px #0002;font-size:13px;z-index:5;display:none;max-width:90vw}.footer{text-align:center;padding:26px 0;color:#929b94;font-size:11px}
+@media(max-width:700px){.app{padding:13px}.hero{grid-template-columns:1fr;padding:23px}.hero .hero-stat{display:flex;align-items:center;gap:15px;justify-self:start;text-align:left}.ring{width:110px;height:110px;flex-shrink:0}.ring strong{font-size:23px}.ring span{font-size:9px}.hero-stat p{max-width:130px}.span-8,.span-7,.span-6,.span-5,.span-4{grid-column:span 12}.badges{grid-template-columns:repeat(3,1fr)}.card{padding:17px}.profile .profile-name{display:none}}
+</style>
+</head>
+<body>
+<div class="app">
+<header>
+  <div class="brand"><div class="logo">▲</div><div><h1>APEX GYM 360</h1><small>ENTRENA · AVANZA · SUPÉRATE</small></div></div>
+  <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:flex-end">
+    <button id="installButton" class="secondary hidden" onclick="installApp()">＋ Instalar app</button>
+    <div class="profile"><div class="avatar">💪</div><span class="profile-name">Mi espacio fitness</span></div>
+  </div>
+</header>
+<div id="installHelp" class="card hidden" style="margin-bottom:14px;background:#f4fbe8">
+  <b>Instala APEX GYM 360</b>
+  <p class="sub" id="installHelpText">Puedes añadir esta app a la pantalla de inicio para abrirla como una aplicación.</p>
+  <button class="small-btn" onclick="document.getElementById('installHelp').classList.add('hidden')">Entendido</button>
+</div>
+
+<section class="hero">
+  <div><div class="eyebrow">TU PROGRESO CUENTA</div><h2>Un día a la vez.<br>Más fuerte cada día.</h2><p>Registra tus entrenamientos, celebra tus logros y mantén tu hidratación en el camino hacia tus metas.</p><button class="primary" onclick="showTab('entrenamiento')">＋ Registrar entrenamiento</button></div>
+  <div class="hero-stat"><div class="ring" id="heroRing"><div class="ring-inner"><strong id="heroPercent">0%</strong><span>de hidratación</span></div></div><p><b id="heroWater">0 ml</b> de tu meta diaria</p></div>
+</section>
+
+<nav>
+<button class="tab active" data-tab="inicio" onclick="showTab('inicio')">⌂ Inicio</button>
+<button class="tab" data-tab="entrenamiento" onclick="showTab('entrenamiento')">🏋️ Entrenamiento</button>
+<button class="tab" data-tab="logros" onclick="showTab('logros')">🏆 Mis logros</button>
+<button class="tab" data-tab="agua" onclick="showTab('agua')">💧 Hidratación</button>
+<button class="tab" data-tab="progreso" onclick="showTab('progreso')">📈 Mi progreso</button>
+</nav>
+
+<section id="inicio">
+  <div class="grid">
+    <div class="card span-7">
+      <div class="card-head"><div><h3>💧 Mi hidratación</h3><div class="sub">Cada vaso suma. ¡Tú puedes!</div></div><div class="iconbox">🚰</div></div>
+      <div class="water-number"><strong id="waterTotal">0</strong><span>ml tomados hoy</span></div>
+      <div class="bar"><div id="waterBar"></div></div>
+      <div class="statline"><span>Meta diaria</span><b id="waterGoalLabel">2,000 ml</b></div>
+      <div class="statline"><span>Te falta</span><b id="waterRemaining">2,000 ml</b></div>
+      <div class="water-actions"><button onclick="addWater(250)">＋ 250 ml</button><button onclick="addWater(500)">＋ 500 ml</button><button onclick="addWater(750)">＋ 750 ml</button><button onclick="undoWater()">↶ Deshacer</button></div>
+      <div class="form-row"><div class="field"><label>Meta diaria (ml)</label><input id="goalInput" type="number" min="250" step="250" value="2000"></div><div class="field" style="justify-content:end"><button class="secondary" onclick="saveGoal()">Guardar meta</button></div></div>
+    </div>
+    <div class="card span-5">
+      <div class="card-head"><div><h3>🔥 Tu racha</h3><div class="sub">La constancia es tu superpoder</div></div><div class="iconbox">⚡</div></div>
+      <div class="streak"><div class="streak-emoji">🔥</div><div><strong id="streakNum">0 días</strong><span>de entrenamiento registrados</span></div></div>
+      <div style="margin-top:19px" class="statline"><span>Entrenamientos totales</span><b id="workoutCount">0</b></div>
+      <div class="statline"><span>Agua registrada hoy</span><b id="waterSmall">0 ml</b></div>
+      <button class="secondary" style="width:100%;margin-top:13px" onclick="showTab('logros')">Ver mis trofeos →</button>
+    </div>
+    <div class="card span-6">
+      <div class="card-head"><div><h3>🏆 Logros recientes</h3><div class="sub">Pequeños pasos, grandes victorias</div></div><div class="iconbox">🎉</div></div>
+      <div id="recentBadges" class="workout-list"></div>
+      <button class="small-btn" style="margin-top:12px" onclick="showTab('logros')">Ver todos los logros</button>
+    </div>
+    <div class="card span-6">
+      <div class="card-head"><div><h3>📅 Registrar hoy</h3><div class="sub">Marca tu sesión y suma progreso</div></div><div class="iconbox">💪</div></div>
+      <div class="field"><label>Tipo de entrenamiento</label><select id="workoutType"><option>Pesas</option><option>Cardio</option><option>Bicicleta</option><option>Movilidad / estiramiento</option><option>Entrenamiento completo</option></select></div>
+      <div class="form-row"><div class="field"><label>Duración (minutos)</label><input id="workoutMinutes" type="number" min="1" value="45"></div><div class="field"><label>Nota (opcional)</label><input id="workoutNote" placeholder="Ej. Día de piernas"></div></div>
+      <button class="primary" style="margin-top:13px;width:100%" onclick="addWorkout()">✓ Completar entrenamiento</button>
+    </div>
+  </div>
+</section>
+
+<section id="entrenamiento" class="hidden">
+  <h2 class="section-title">Entrenamiento</h2><p class="section-desc">Registra tu actividad y celebra cada sesión completada.</p>
+  <div class="grid">
+    <div class="card span-5"><div class="card-head"><div><h3>➕ Nueva sesión</h3><div class="sub">Cada entrenamiento cuenta</div></div></div>
+      <div class="field"><label>Tipo</label><select id="workoutType2"><option>Pesas</option><option>Cardio</option><option>Bicicleta</option><option>Movilidad / estiramiento</option><option>Entrenamiento completo</option></select></div>
+      <div class="form-row"><div class="field"><label>Duración (min)</label><input id="workoutMinutes2" type="number" min="1" value="45"></div></div>
+      <div class="field" style="margin-top:12px"><label>Nota (opcional)</label><input id="workoutNote2" placeholder="Ej. Caminata, espalda..."></div>
+      <button class="primary" style="width:100%;margin-top:14px" onclick="addWorkout(true)">Guardar sesión</button>
+    </div>
+    <div class="card span-7"><div class="card-head"><div><h3>📋 Historial de sesiones</h3><div class="sub">Tus entrenamientos registrados</div></div></div><div id="workoutHistory" class="workout-list"></div></div>
+  </div>
+</section>
+
+<section id="logros" class="hidden">
+  <h2 class="section-title">Mis logros 🏆</h2><p class="section-desc">¡Cada pequeño avance merece celebrarse! Los trofeos se desbloquean automáticamente según tus registros.</p>
+  <div class="card"><div class="card-head"><div><h3>Tu colección de trofeos</h3><div class="sub" id="badgeSummary">0 logros desbloqueados</div></div><div class="iconbox">🥇</div></div><div class="badges" id="allBadges"></div></div>
+</section>
+
+<section id="agua" class="hidden">
+  <h2 class="section-title">Hidratación 💧</h2><p class="section-desc">Define una meta personal, registra lo que bebes y configura recordatorios mientras la página esté abierta.</p>
+  <div class="grid">
+    <div class="card span-6"><div class="card-head"><div><h3>🥤 Registro de agua</h3><div class="sub">Tu avance de hoy</div></div><div class="iconbox">💦</div></div>
+      <div class="water-number"><strong id="waterTotal2">0</strong><span>ml de agua</span></div><div class="bar"><div id="waterBar2"></div></div>
+      <div class="statline"><span>Meta</span><b id="waterGoalLabel2">2,000 ml</b></div><div class="statline"><span>Restante</span><b id="waterRemaining2">2,000 ml</b></div>
+      <div class="water-actions"><button onclick="addWater(250)">＋ 250 ml</button><button onclick="addWater(500)">＋ 500 ml</button><button onclick="addWater(750)">＋ 750 ml</button><button onclick="undoWater()">↶ Deshacer</button></div>
+      <div class="field" style="margin-top:17px"><label>Añadir cantidad personalizada (ml)</label><div class="form-row" style="margin-top:0"><input id="customWater" type="number" min="1" placeholder="Ej. 350"><button class="secondary" onclick="addCustomWater()">Añadir</button></div></div>
+      <div class="field" style="margin-top:15px"><label>Meta diaria (ml)</label><div class="form-row" style="margin-top:0"><input id="goalInput2" type="number" min="250" step="250" value="2000"><button class="secondary" onclick="saveGoal()">Guardar</button></div></div>
+    </div>
+    <div class="card span-6"><div class="card-head"><div><h3>⏰ Recordatorios de agua</h3><div class="sub">Recibe avisos para hacer una pausa y beber agua</div></div><div class="iconbox">🔔</div></div>
+      <label style="display:flex;gap:10px;align-items:center;font-size:13px;font-weight:750"><input id="reminderToggle" type="checkbox" style="width:18px;height:18px"> Activar recordatorios</label>
+      <div class="form-row"><div class="field"><label>Intervalo</label><select id="reminderInterval"><option value="30">Cada 30 minutos</option><option value="45">Cada 45 minutos</option><option value="60" selected>Cada 60 minutos</option><option value="90">Cada 90 minutos</option><option value="120">Cada 2 horas</option></select></div></div>
+      <div class="form-row"><div class="field"><label>Desde</label><input id="reminderStart" type="time" value="08:00"></div><div class="field"><label>Hasta</label><input id="reminderEnd" type="time" value="20:00"></div></div>
+      <button class="primary" style="width:100%;margin-top:14px" onclick="saveReminders()">Guardar recordatorios</button>
+      <p class="sub" style="line-height:1.6;margin-top:13px">Nota: en esta versión web de prueba, los avisos funcionan mientras la página permanece abierta. Para notificaciones fiables con la app cerrada, hará falta convertirla en una app instalable y configurar notificaciones del sistema.</p>
+      <button class="small-btn" onclick="testReminder()">Probar notificación</button>
+    </div>
+  </div>
+</section>
+
+<section id="progreso" class="hidden">
+  <h2 class="section-title">Mi progreso 📈</h2><p class="section-desc">Un resumen de tu actividad registrada en este dispositivo.</p>
+  <div class="grid">
+    <div class="card span-4"><div class="iconbox">🏋️</div><div class="sub">Entrenamientos registrados</div><div class="water-number"><strong id="progressWorkouts">0</strong><span>sesiones</span></div></div>
+    <div class="card span-4"><div class="iconbox">⏱️</div><div class="sub">Tiempo total entrenado</div><div class="water-number"><strong id="progressMinutes">0</strong><span>minutos</span></div></div>
+    <div class="card span-4"><div class="iconbox">🏆</div><div class="sub">Logros desbloqueados</div><div class="water-number"><strong id="progressBadges">0</strong><span>trofeos</span></div></div>
+    <div class="card span-12"><div class="card-head"><div><h3>📊 Actividad de los últimos 7 días</h3><div class="sub">Sesiones registradas por fecha</div></div></div><div id="weekChart" style="display:flex;align-items:end;gap:10px;height:150px;padding-top:10px"></div></div>
+    <div class="card span-12">
+      <div class="card-head"><div><h3>💾 Copia y recuperación</h3><div class="sub">Transfiere tus registros a otro teléfono con un archivo de respaldo.</div></div><div class="iconbox">📦</div></div>
+      <button class="secondary" onclick="exportData()">⬇ Exportar copia (JSON)</button>
+      <button class="secondary" onclick="document.getElementById('backupFile').click()">⬆ Restaurar copia</button>
+      <input id="backupFile" type="file" accept=".json,application/json" class="hidden" onchange="importData(event)">
+      <button class="secondary" onclick="resetData()">Borrar datos de prueba</button>
+      <p class="sub">Los registros se guardan en este dispositivo. Guarda el archivo JSON en Archivos/iCloud/Drive y luego selecciónalo en el otro teléfono para restaurar. La copia no se sincroniza automáticamente.</p>
+    </div>
+  </div>
+</section>
+<div class="footer">APEX GYM 360 · PROTOTIPO WEB DE PRUEBA · Tus datos se guardan en este dispositivo</div>
+</div>
+<div id="toast" class="toast"></div>
+<script>
+const KEY='apexGym360Prototype_v1';
+const today=()=>new Date().toISOString().slice(0,10);
+let state=loadState();
+function loadState(){try{return JSON.parse(localStorage.getItem(KEY))||{goal:2000,water:{},workouts:[],reminders:{enabled:false,interval:60,start:'08:00',end:'20:00'}}}catch(e){return {goal:2000,water:{},workouts:[],reminders:{enabled:false,interval:60,start:'08:00',end:'20:00'}}}}
+function save(){localStorage.setItem(KEY,JSON.stringify(state));render()}
+function ml(n){return Math.round(n).toLocaleString('es-SV')+' ml'}
+function toast(msg){let t=document.getElementById('toast');t.textContent=msg;t.style.display='block';clearTimeout(window.toastTimer);window.toastTimer=setTimeout(()=>t.style.display='none',2800)}
+function showTab(tab){document.querySelectorAll('section[id]').forEach(s=>s.classList.toggle('hidden',s.id!==tab));document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('active',b.dataset.tab===tab));if(tab==='progreso')renderChart();window.scrollTo({top:0,behavior:'smooth'})}
+function waterToday(){return state.water[today()]||[]}
+function addWater(amount){state.water[today()]=waterToday().concat([{amount,time:new Date().toLocaleTimeString('es-SV',{hour:'2-digit',minute:'2-digit'})}]);save();toast('¡Bien hecho! '+ml(amount)+' añadidos 💧');checkAchievements()}
+function addCustomWater(){let n=Number(document.getElementById('customWater').value);if(!n||n<1)return toast('Ingresa una cantidad válida');addWater(n);document.getElementById('customWater').value=''}
+function undoWater(){let a=waterToday();if(!a.length)return toast('Todavía no hay registros de agua');a.pop();state.water[today()]=a;save();toast('Se deshizo el último registro')}
+function saveGoal(){let v=Number(document.getElementById('goalInput2').value||document.getElementById('goalInput').value);if(!v||v<250)return toast('La meta debe ser de al menos 250 ml');state.goal=v;save();toast('Meta diaria actualizada')}
+function addWorkout(fromTab=false){let type=document.getElementById(fromTab?'workoutType2':'workoutType').value;let minutes=Number(document.getElementById(fromTab?'workoutMinutes2':'workoutMinutes').value);let note=document.getElementById(fromTab?'workoutNote2':'workoutNote').value.trim();if(!minutes||minutes<1)return toast('Ingresa una duración válida');state.workouts.push({id:Date.now(),date:today(),type,minutes,note,time:new Date().toLocaleTimeString('es-SV',{hour:'2-digit',minute:'2-digit'})});save();toast('¡Sesión registrada! 💪 ¡Vas con todo!');checkAchievements();if(fromTab)showTab('entrenamiento')}
+const achievements=[
+{id:'first',emoji:'🌱',name:'Primer paso',desc:'Registra tu primer entrenamiento',test:s=>s.workouts.length>=1},
+{id:'three',emoji:'🐣',name:'Modo constante',desc:'Completa 3 entrenamientos',test:s=>s.workouts.length>=3},
+{id:'seven',emoji:'🔥',name:'Semana poderosa',desc:'Completa 7 entrenamientos',test:s=>s.workouts.length>=7},
+{id:'ten',emoji:'💥',name:'Diez con todo',desc:'Completa 10 entrenamientos',test:s=>s.workouts.length>=10},
+{id:'water1',emoji:'💧',name:'Primera gota',desc:'Registra agua por primera vez',test:s=>Object.values(s.water).some(a=>a.length>0)},
+{id:'hydrated',emoji:'🫧',name:'Hidratación al 100',desc:'Alcanza tu meta diaria de agua',test:s=>(s.water[today()]||[]).reduce((n,x)=>n+x.amount,0)>=s.goal},
+{id:'minutes',emoji:'⏱️',name:'Tiempo bien invertido',desc:'Acumula 300 minutos de entrenamiento',test:s=>s.workouts.reduce((n,w)=>n+w.minutes,0)>=300},
+{id:'variety',emoji:'🎨',name:'Todoterreno',desc:'Prueba 3 tipos de entrenamiento',test:s=>new Set(s.workouts.map(w=>w.type)).size>=3},
+{id:'water3',emoji:'🚰',name:'Hidratación en marcha',desc:'Registra agua en 3 días distintos',test:s=>Object.values(s.water).filter(a=>a.length).length>=3}
+];
+function earned(){return achievements.filter(a=>a.test(state))}
+function checkAchievements(){let current=earned();let prev=state.earned||[];let fresh=current.filter(a=>!prev.includes(a.id));state.earned=current.map(a=>a.id);localStorage.setItem(KEY,JSON.stringify(state));if(fresh.length)toast('¡Nuevo logro desbloqueado! '+fresh[0].emoji+' '+fresh[0].name);render()}
+function render(){let w=waterToday().reduce((n,x)=>n+x.amount,0),goal=state.goal||2000,pct=Math.min(100,Math.round(w/goal*100));document.getElementById('waterTotal').textContent=w.toLocaleString('es-SV');document.getElementById('waterTotal2').textContent=w.toLocaleString('es-SV');document.getElementById('waterSmall').textContent=ml(w);document.getElementById('waterGoalLabel').textContent=ml(goal);document.getElementById('waterGoalLabel2').textContent=ml(goal);document.getElementById('waterRemaining').textContent=ml(Math.max(0,goal-w));document.getElementById('waterRemaining2').textContent=ml(Math.max(0,goal-w));document.getElementById('waterBar').style.width=pct+'%';document.getElementById('waterBar2').style.width=pct+'%';document.getElementById('heroRing').style.setProperty('--progress',pct+'%');document.getElementById('heroPercent').textContent=pct+'%';document.getElementById('heroWater').textContent=ml(w);document.getElementById('goalInput').value=goal;document.getElementById('goalInput2').value=goal;
+document.getElementById('workoutCount').textContent=state.workouts.length;document.getElementById('streakNum').textContent=streak()+' días';document.getElementById('progressWorkouts').textContent=state.workouts.length;document.getElementById('progressMinutes').textContent=state.workouts.reduce((n,x)=>n+x.minutes,0);document.getElementById('progressBadges').textContent=earned().length;
+const b=earned();document.getElementById('badgeSummary').textContent=b.length+' de '+achievements.length+' logros desbloqueados';document.getElementById('allBadges').innerHTML=achievements.map(a=>`<div class="badge-card ${a.test(state)?'earned':''}"><div class="medal">${a.emoji}</div><b>${a.name}</b><small>${a.desc}</small></div>`).join('');
+document.getElementById('recentBadges').innerHTML=(b.slice(-3).reverse().map(a=>`<div class="workout"><span class="wicon">${a.emoji}</span><div class="wtext"><b>${a.name}</b><small>${a.desc}</small></div><span>✓</span></div>`).join(''))||'<div class="sub">Tu primer trofeo está esperando. ¡Registra una sesión!</div>';
+let recent=[...state.workouts].reverse().slice(0,8);document.getElementById('workoutHistory').innerHTML=recent.map(w=>`<div class="workout"><span class="wicon">${iconFor(w.type)}</span><div class="wtext"><b>${w.type} · ${w.minutes} min</b><small>${w.date} · ${w.time||''} ${w.note?'· '+escapeHtml(w.note):''}</small></div></div>`).join('')||'<div class="sub">Todavía no hay sesiones. ¡Registra tu primera!</div>';
+if(state.reminders){document.getElementById('reminderToggle').checked=!!state.reminders.enabled;document.getElementById('reminderInterval').value=state.reminders.interval||60;document.getElementById('reminderStart').value=state.reminders.start||'08:00';document.getElementById('reminderEnd').value=state.reminders.end||'20:00'}
+renderChart()}
+function iconFor(t){return t==='Pesas'?'🏋️':t==='Cardio'?'🏃':t==='Bicicleta'?'🚴':t.startsWith('Movilidad')?'🧘':'💪'}
+function streak(){let days=new Set(state.workouts.map(w=>w.date));let d=new Date();if(!days.has(today()))d.setDate(d.getDate()-1);let n=0;for(let i=0;i<365;i++){let k=d.toISOString().slice(0,10);if(days.has(k)){n++;d.setDate(d.getDate()-1)}else break}return n}
+function renderChart(){let root=document.getElementById('weekChart');if(!root)return;let days=[];for(let i=6;i>=0;i--){let d=new Date();d.setDate(d.getDate()-i);let key=d.toISOString().slice(0,10);days.push({key,label:d.toLocaleDateString('es-SV',{weekday:'short'}),count:state.workouts.filter(w=>w.date===key).length})}let max=Math.max(1,...days.map(x=>x.count));root.innerHTML=days.map(d=>`<div style="flex:1;text-align:center;height:100%;display:flex;flex-direction:column;justify-content:end;gap:7px"><small style="font-size:11px;color:var(--muted)">${d.count}</small><div style="height:${Math.max(5,d.count/max*95)}px;background:${d.count?'var(--lime)':'#edf0ec'};border-radius:9px 9px 4px 4px"></div><small style="font-size:10px;color:var(--muted)">${d.label}</small></div>`).join('')}
+function saveReminders(){state.reminders={enabled:document.getElementById('reminderToggle').checked,interval:Number(document.getElementById('reminderInterval').value),start:document.getElementById('reminderStart').value,end:document.getElementById('reminderEnd').value};localStorage.setItem(KEY,JSON.stringify(state));setupReminder();toast(state.reminders.enabled?'Recordatorios configurados (página abierta)':'Recordatorios desactivados')}
+let reminderTimer=null;async function setupReminder(){if(reminderTimer)clearInterval(reminderTimer);if(!state.reminders.enabled)return;if(!('Notification'in window)){toast('Este navegador no admite notificaciones');return}if(Notification.permission==='default'){try{await Notification.requestPermission()}catch(e){}}if(Notification.permission!=='granted'){toast('Permite las notificaciones en tu navegador para recibir avisos');return}reminderTimer=setInterval(()=>{let now=new Date(),hm=now.toTimeString().slice(0,5),r=state.reminders;if(hm>=r.start&&hm<=r.end&&now.getMinutes()%r.interval===0){new Notification('APEX GYM 360 💧',{body:'Pausa rápida: toma un poco de agua y sigue con todo.'})}},60000)}
+async function testReminder(){if(!('Notification'in window))return toast('Tu navegador no admite notificaciones.');let p=Notification.permission;if(p==='default')p=await Notification.requestPermission();if(p==='granted'){new Notification('APEX GYM 360 💧',{body:'¡Es hora de hidratarte! Cada pequeño hábito cuenta.'});toast('Notificación de prueba enviada')}else toast('Activa los permisos de notificación en tu navegador')}
+function exportData(){let blob=new Blob([JSON.stringify(state,null,2)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='apex-gym-360-datos.json';a.click();URL.revokeObjectURL(url);toast('Copia de tus datos descargada')}
+function resetData(){if(!confirm('¿Seguro que quieres borrar todos los datos de prueba de este navegador?'))return;state={goal:2000,water:{},workouts:[],reminders:{enabled:false,interval:60,start:'08:00',end:'20:00'}};save();toast('Datos de prueba borrados')}
+function escapeHtml(s){return s.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+
+// PWA: cache offline e instalación cuando el navegador lo permita.
+let deferredInstallPrompt = null;
+window.addEventListener('beforeinstallprompt', (event) => {
+  event.preventDefault();
+  deferredInstallPrompt = event;
+  const b = document.getElementById('installButton');
+  if (b) b.classList.remove('hidden');
+});
+window.addEventListener('appinstalled', () => {
+  const b = document.getElementById('installButton');
+  if (b) b.classList.add('hidden');
+  toast('¡APEX GYM 360 quedó instalada! 💪');
+});
+async function installApp() {
+  if (deferredInstallPrompt) {
+    deferredInstallPrompt.prompt();
+    await deferredInstallPrompt.userChoice;
+    deferredInstallPrompt = null;
+    document.getElementById('installButton').classList.add('hidden');
+    return;
+  }
+  const help = document.getElementById('installHelp');
+  const text = document.getElementById('installHelpText');
+  const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
+  text.textContent = isIOS
+    ? 'En Safari: toca Compartir (cuadro con flecha hacia arriba), elige “Añadir a pantalla de inicio” y confirma. Primero debes abrir esta app desde una dirección HTTPS.'
+    : 'Abre el menú del navegador y busca “Instalar aplicación” o “Añadir a pantalla de inicio”. La instalación real requiere que la app esté publicada en HTTPS (o abierta en localhost).';
+  help.classList.remove('hidden');
+}
+if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost' || location.hostname === '127.0.0.1')) {
+  window.addEventListener('load', () => navigator.serviceWorker.register('./service-worker.js').catch(() => {}));
+}
+function importData(event) {
+  const file = event.target.files && event.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = () => {
+    try {
+      const imported = JSON.parse(reader.result);
+      if (!imported || typeof imported !== 'object' || !Array.isArray(imported.workouts) || !imported.water || typeof imported.water !== 'object') {
+        throw new Error('Formato no reconocido');
+      }
+      if (!confirm('Restaurar esta copia reemplazará los datos actuales de APEX GYM 360. ¿Deseas continuar?')) {
+        event.target.value = '';
+        return;
+      }
+      state = {
+        goal: Number(imported.goal) > 0 ? Number(imported.goal) : 2000,
+        water: imported.water,
+        workouts: imported.workouts,
+        reminders: imported.reminders || {enabled:false, interval:60, start:'08:00', end:'20:00'},
+        earned: Array.isArray(imported.earned) ? imported.earned : []
+      };
+      localStorage.setItem(KEY, JSON.stringify(state));
+      render();
+      setupReminder();
+      toast('Copia restaurada correctamente ✓');
+    } catch (err) {
+      toast('No se pudo restaurar: el archivo no parece una copia válida');
+    }
+    event.target.value = '';
+  };
+  reader.readAsText(file);
+}
+
+render();checkAchievements();setupReminder();
+</script>
+</body>
+</html>
