@@ -159,44 +159,51 @@ function renderExercises(){
  const mus=document.getElementById('filterMuscle').value;
  const equip=equipmentValue();
  const h=data.profile.health;
+ const adapted=['hypertension','diabetes'].includes(h);
  const warning=healthMessage();
  const notice=document.getElementById('healthNotice');
  notice.classList.toggle('hidden',!warning);
  notice.classList.toggle('health-adapt',!!warning);
  notice.innerHTML=warning;
  let list=exercises.filter(x=>(requestedLevel==='all'||x.levels.includes(requestedLevel))&&(mus==='all'||x.muscle===mus)&&x.equip.includes(equip));
- let adapted=(h==='hypertension'||h==='diabetes');
  if(adapted){
-   list=list.filter(x=>adaptedExerciseIds.includes(x.id)&&x.levels.includes('beginner'));
+   // Adaptation conservadora: nivel inicial, movimientos sencillos, sin selección de nivel avanzado.
+   const excluded=h==='hypertension'?[2,6,10,12]:[2,6,10];
+   list=exercises.filter(x=>x.levels.includes('beginner')&&!excluded.includes(x.id)&&(mus==='all'||x.muscle===mus)&&x.equip.includes(equip));
+   // Evita una pantalla vacía si el equipo del perfil no coincide: ofrece alternativas de peso corporal.
+   if(!list.length) list=exercises.filter(x=>x.levels.includes('beginner')&&!excluded.includes(x.id)&&(mus==='all'||x.muscle===mus)&&x.equip.some(e=>['bodyweight','gym','dumbbells'].includes(e)));
  } else if(['heart','joint','other'].includes(h)){
    list=[];
  }
  const box=document.getElementById('exerciseList');box.innerHTML='';
+ if(!list.length){
+   const msg=document.createElement('div');msg.className='empty';
+   msg.innerHTML=(adapted
+    ? 'No encontramos ejercicios para ese filtro. Prueba <strong>Todos los grupos</strong> o cambia el equipo disponible.'
+    : ['heart','joint','other'].includes(h)
+      ? 'Por seguridad, no se muestran rutinas genéricas para la condición indicada. Consulta con tu profesional de salud qué ejercicios tienes autorizados.'
+      : 'No hay ejercicios para esta combinación. Prueba otro grupo muscular o equipo.');
+   box.appendChild(msg);
+ }
  list.forEach(x=>{
    const idx=adapted?0:(levelIndex[requestedLevel==='all'?data.profile.level:requestedLevel]??0);
    const doneNow=done.has(x.id);
    const sets=adapted?2:x.sets[idx];
    const rest=adapted?Math.max(90,x.rest[idx]):x.rest[idx];
-   const reps=adapted?(x.id===18?'5–10 min':x.id===19?'6 por lado':x.id===20?'6–8':'8–12'):x.reps[idx];
+   const reps=adapted?(x.id===18?'5–10 min':x.id===19?'6 por lado':x.id===20?'6–8':x.muscle==='Pantorrillas'?'8–12':'8–12'):x.reps[idx];
    const adaptationTag=adapted?'<span class="pill">Adaptación orientativa</span>':'';
-   const extraTip=adapted?(h==='hypertension'?' Empieza con esfuerzo cómodo, sin contener la respiración; termina la serie antes de llegar al agotamiento.':' Mantén un ritmo gradual y sigue las precauciones personalizadas que te dio tu equipo de salud.'):'';
+   let extraTip='';
+   if(h==='hypertension') extraTip=' Empieza con esfuerzo cómodo, respira durante todo el movimiento y termina antes del agotamiento; evita aguantar el aire o hacer esfuerzos máximos.';
+   if(h==='diabetes') extraTip=' Progresa poco a poco y sigue tu plan personal de glucosa, comida y medicación. Detente si te sientes mal.';
    const el=document.createElement('article');el.className='card exercise';
-   el.innerHTML=`<div class="exercise-art">${x.emoji}<span>${safe(x.muscle)}</span></div><div class="exercise-content"><h3>${safe(x.name)}</h3><div class="meta">${safe(x.desc+extraTip)}</div><div class="sets">${sets} series · ${reps} rep. · descanso ${rest||'según necesidad'}${rest?' s':''}</div><div class="field"><label for="weight-${x.id}">Peso usado (kg, opcional)</label><input id="weight-${x.id}" type="number" min="0" step=".5" placeholder="Ej. 10" value="${safe(sessionWeights[x.id]||'')}"></div><div class="exercise-actions" style="margin-top:10px"><button class="btn small ${doneNow?'secondary':''}" data-done="${x.id}">${doneNow?'✓ Completado':'Marcar completado'}</button><span class="pill">${adapted?'Esfuerzo ligero/moderado':safe(levelNames[requestedLevel==='all'?data.profile.level:requestedLevel]||'Todos los niveles')}</span>${adaptationTag}</div></div>`;
+   el.innerHTML=`<div class="exercise-art">${x.emoji}<span>${safe(x.muscle)}</span></div><div class="exercise-content"><h3>${safe(x.name)}</h3><div class="meta">${safe(x.desc+extraTip)}</div><div class="sets">${sets} ${adapted?'series orientativas':'series'} · ${reps} rep. · descanso ${rest||'según necesidad'}${rest?' s':''}</div><div class="field"><label for="weight-${x.id}">Peso usado (kg, opcional)</label><input id="weight-${x.id}" type="number" min="0" step=".5" placeholder="Ej. 10" value="${safe(sessionWeights[x.id]||'')}"></div><div class="exercise-actions" style="margin-top:10px"><button class="btn small ${doneNow?'secondary':''}" data-done="${x.id}">${doneNow?'✓ Completado':'Marcar completado'}</button><span class="pill">${adapted?'Esfuerzo cómodo':safe(levelNames[requestedLevel==='all'?data.profile.level:requestedLevel]||'Todos los niveles')}</span>${adaptationTag}</div></div>`;
    box.appendChild(el);
    el.querySelector('input').addEventListener('input',e=>sessionWeights[x.id]=e.target.value);
    el.querySelector('[data-done]').addEventListener('click',()=>{doneNow?done.delete(x.id):done.add(x.id);renderExercises()});
  });
  document.getElementById('routineCount').textContent=list.length+' ejercicios';
  document.getElementById('routineTitle').textContent=adapted?'Rutina orientativa adaptada':mus==='all'?'Rutinas recomendadas':'Rutina de '+mus;
- document.getElementById('routineSub').textContent=adapted?'Se limita a movimientos sencillos, con pocas series y descanso amplio. No es una prescripción médica.':'Empieza con cargas manejables y prioriza la técnica.';
- document.getElementById('sessionProgress').style.width=(list.length?done.size/list.length*100:0)+'%';
- document.getElementById('sessionLabel').textContent=done.size+' ejercicios completados';
- if(!list.length){
-   let message='No hay ejercicios para esta combinación. Elige otro grupo muscular o equipo.';
-   if(h==='heart'||h==='joint'||h==='other') message='Rutinas pausadas por seguridad. Consulta con un profesional de salud y vuelve a usar esta sección cuando tengas indicaciones claras sobre las actividades permitidas.';
-   if(adapted) message='No hay movimientos de esta selección dentro de la lista orientativa. Prueba otro grupo muscular o equipo; si tienes dudas sobre la seguridad de un movimiento, consulta a tu equipo de salud.';
-   box.innerHTML='<div class="card empty">'+safe(message)+'</div>';
- }
+ document.getElementById('routineSub').textContent=adapted?'Se muestran movimientos de nivel inicial, con pocas series y descanso amplio. Ajusta o suspende la actividad según tus indicaciones médicas; esta app no sustituye una valoración profesional.':'Empieza con cargas manejables y prioriza la técnica antes de aumentar peso.';
 }
 ['filterLevel','filterMuscle','filterEquipment'].forEach(id=>document.getElementById(id).addEventListener('change',renderExercises));
 document.getElementById('finishWorkout').addEventListener('click',()=>{if(!done.size){toast('Marca al menos un ejercicio antes de guardar');return}const muscle=document.getElementById('filterMuscle').value;const lev=document.getElementById('filterLevel').value;const entry={date:new Date().toISOString(),level:lev==='all'?data.profile.level:lev,health:data.profile.health||'none',adapted:['hypertension','diabetes'].includes(data.profile.health),muscle,exercises:[...done].map(id=>{const x=exercises.find(e=>e.id===id);return {name:x.name,muscle:x.muscle,weight:sessionWeights[id]||''}})};data.history.unshift(entry);saveData();done.clear();sessionWeights={};renderExercises();toast('¡Sesión guardada! Buen trabajo');});
